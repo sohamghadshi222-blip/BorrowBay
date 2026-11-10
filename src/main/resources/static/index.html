@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>BorrowBay</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #18212f;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+
+        /* =====================================
+           HEADER
+        ===================================== */
+
+        header {
+            height: 72px;
+            background: #0b1220;
+            display: flex;
+            align-items: center;
+            padding: 0 30px;
+            border-bottom: 1px solid #334155;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            gap: 25px;
+        }
+
+
+        .menu-btn {
+            font-size: 25px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #f8fafc;
+        }
+
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            white-space: nowrap;
+            color: #f8fafc;
+        }
+
+
+        .search {
+            flex: 1;
+            max-width: 600px;
+            margin: auto;
+        }
+
+
+        .search input {
+            width: 100%;
+            padding: 12px 18px;
+            background: #18212f;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            border-radius: 25px;
+            font-size: 15px;
+        }
+
+
+        .search input::placeholder {
+            color: #94a3b8;
+        }
+
+
+        .search input:focus {
+            outline: none;
+            border-color: #14b8a6;
+        }
+
+
+        .cart {
+            position: relative;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #f8fafc;
+        }
+
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background: #14b8a6;
+            color: #0b1220;
+            width: 19px;
+            height: 19px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+
+        /* =====================================
+           SIDE MENU
+        ===================================== */
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.65);
+            display: none;
+            z-index: 150;
+        }
+
+
+        .overlay.active {
+            display: block;
+        }
+
+
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: -310px;
+            width: 290px;
+            height: 100vh;
+            background: #0b1220;
+            border-right: 1px solid #334155;
+            z-index: 200;
+            transition: 0.3s;
+            padding: 25px;
+            overflow-y: auto;
+        }
+
+
+        .side-menu.active {
+            left: 0;
+        }
+
+
+        .close {
+            border: none;
+            background: none;
+            color: #f8fafc;
+            font-size: 28px;
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+
+
+        .user-box {
+            padding: 18px;
+            background: #18212f;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+
+        .user-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #f8fafc;
+        }
+
+
+        .user-email {
+            font-size: 13px;
+            color: #94a3b8;
+            word-break: break-all;
+        }
+
+
+        .menu-link {
+            display: block;
+            padding: 14px 12px;
+            margin-bottom: 5px;
+            color: #cbd5e1;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+
+        .menu-link:hover {
+            background: #222d3d;
+            color: #2dd4bf;
+        }
+
+
+        /* SETTINGS */
+
+        .settings-section {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+
+        .settings-btn {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #cbd5e1;
+            padding: 14px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+
+        .settings-btn:hover {
+            background: #222d3d;
+            color: #2dd4bf;
+        }
+
+
+        .settings-arrow {
+            transition: 0.2s;
+        }
+
+
+        .settings-section.active .settings-arrow {
+            transform: rotate(90deg);
+        }
+
+
+        .settings-options {
+            display: none;
+            padding-left: 10px;
+        }
+
+
+        .settings-section.active .settings-options {
+            display: block;
+        }
+
+
+        .settings-option {
+            display: block;
+            padding: 12px;
+            color: #94a3b8;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+
+        .settings-option:hover {
+            background: #222d3d;
+            color: #2dd4bf;
+        }
+
+
+        .logout {
+            color: #f87171;
+            margin-top: 15px;
+        }
+
+
+        .logout:hover {
+            color: #fca5a5;
+        }
+
+
+        /* =====================================
+           HERO
+        ===================================== */
+
+        .hero {
+            text-align: center;
+            padding: 65px 20px 45px;
+            background:
+                    radial-gradient(
+                            circle at top,
+                            rgba(20,184,166,0.15),
+                            transparent 45%
+                    );
+        }
+
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+
+        .hero p {
+            color: #94a3b8;
+            font-size: 17px;
+        }
+
+
+        /* =====================================
+           PRODUCTS SECTION
+        ===================================== */
+
+        .products-section {
+            max-width: 1250px;
+            margin: auto;
+            padding: 20px 30px 60px;
+        }
+
+
+        .section-title {
+            font-size: 25px;
+            margin-bottom: 25px;
+        }
+
+
+        .products {
+            display: grid;
+            grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+
+        /* =====================================
+           PRODUCT CARD
+        ===================================== */
+
+        .product-card {
+            background: #222d3d;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: 0.25s;
+            box-shadow:
+                    0 10px 25px rgba(0,0,0,0.18);
+        }
+
+
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: #475569;
+            box-shadow:
+                    0 15px 35px rgba(0,0,0,0.28);
+        }
+
+
+        .product-image {
+            width: 100%;
+            height: 230px;
+            background: #18212f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 50px;
+        }
+
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+
+        .product-content {
+            padding: 20px;
+        }
+
+
+        .product-name {
+            font-size: 21px;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+
+        .category {
+            display: inline-block;
+            color: #2dd4bf;
+            background: rgba(20,184,166,0.1);
+            border: 1px solid rgba(20,184,166,0.2);
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 12px;
+            margin-bottom: 13px;
+        }
+
+
+        .description {
+            color: #94a3b8;
+            line-height: 1.5;
+            font-size: 14px;
+            margin-bottom: 15px;
+            min-height: 42px;
+        }
+
+
+        .owner {
+            color: #cbd5e1;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+
+        .owner strong {
+            color: #94a3b8;
+        }
+
+
+        .owner-phone {
+            color: #cbd5e1;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+
+        .owner-phone strong {
+            color: #94a3b8;
+        }
+
+
+        /* =====================================
+           LOCATION
+        ===================================== */
+
+        .location-info {
+            background: #18212f;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 17px;
+        }
+
+
+        .location-item {
+            color: #94a3b8;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+
+        .location-item + .location-item {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #334155;
+        }
+
+
+        .location-item strong {
+            color: #cbd5e1;
+        }
+
+
+        /* =====================================
+           BOTTOM ROW
+        ===================================== */
+
+        .bottom-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #f8fafc;
+        }
+
+
+        .add-cart {
+            border: none;
+            background: #14b8a6;
+            color: #0b1220;
+            padding: 11px 15px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+
+        .add-cart:hover {
+            background: #2dd4bf;
+            transform: translateY(-1px);
+        }
+
+
+        /* =====================================
+           EMPTY
+        ===================================== */
+
+        .empty {
+            background: #222d3d;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 60px 20px;
+            text-align: center;
+            grid-column: 1 / -1;
+        }
+
+
+        .empty h3 {
+            margin-bottom: 10px;
+        }
+
+
+        .empty p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+
+        .list-btn {
+            display: inline-block;
+            background: #14b8a6;
+            color: #0b1220;
+            padding: 12px 18px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+
+        .list-btn:hover {
+            background: #2dd4bf;
+        }
+
+
+        /* =====================================
+           RESPONSIVE
+        ===================================== */
+
+        @media (max-width: 1000px) {
+
+            .products {
+                grid-template-columns:
+                        repeat(2, minmax(0, 1fr));
+            }
+
+        }
+
+
+        @media (max-width: 650px) {
+
+            header {
+                padding: 0 15px;
+                gap: 12px;
+            }
+
+
+            .logo {
+                font-size: 20px;
+            }
+
+
+            .search {
+                display: none;
+            }
+
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+
+            .products-section {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+
+            .hero {
+                padding-top: 45px;
+            }
+
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+
+            .product-image {
+                height: 210px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     OVERLAY
+===================================== -->
+
+<div
+        class="overlay"
+        id="overlay"
+        onclick="closeMenu()">
+</div>
+
+
+<!-- =====================================
+     SIDE MENU
+===================================== -->
+
+<div
+        class="side-menu"
+        id="sideMenu">
+
+    <button
+            class="close"
+            onclick="closeMenu()">
+        ×
+    </button>
+
+
+    <div class="user-box">
+
+        <div
+                class="user-name"
+                id="menuUserName">
+            User
+        </div>
+
+
+        <div
+                class="user-email"
+                id="menuUserEmail">
+            user@email.com
+        </div>
+
+    </div>
+
+
+    <a
+            href="/profile.html"
+            class="menu-link">
+        Profile
+    </a>
+
+
+    <a
+            href="/my-rentals.html"
+            class="menu-link">
+        My Rentals
+    </a>
+
+
+    <a
+            href="/my-listings.html"
+            class="menu-link">
+        My Listings
+    </a>
+
+
+    <a
+            href="/history.html"
+            class="menu-link">
+        History
+    </a>
+
+
+    <!-- SETTINGS -->
+
+    <div
+            class="settings-section"
+            id="settingsSection">
+
+        <button
+                class="settings-btn"
+                onclick="toggleSettings()">
+
+            <span>
+                ⚙️ Settings
+            </span>
+
+            <span class="settings-arrow">
+                ▶
+            </span>
+
+        </button>
+
+
+        <div class="settings-options">
+
+            <a
+                    href="/change-password.html"
+                    class="settings-option">
+                🔐 Change Password
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- LOGOUT -->
+
+    <div
+            class="menu-link logout"
+            onclick="logout()">
+        Logout
+    </div>
+
+</div>
+
+
+<!-- =====================================
+     HEADER
+===================================== -->
+
+<header>
+
+    <button
+            class="menu-btn"
+            onclick="openMenu()">
+        ☰
+    </button>
+
+
+    <div class="logo">
+        BorrowBay
+    </div>
+
+
+    <div class="search">
+
+        <input
+                type="text"
+                id="searchInput"
+                placeholder="Search products..."
+                oninput="searchProducts()">
+
+    </div>
+
+
+    <a
+            href="/cart.html"
+            class="cart">
+
+        🛒
+
+        <span
+                class="cart-count"
+                id="cartCount">
+            0
+        </span>
+
+    </a>
+
+</header>
+
+
+<!-- =====================================
+     HERO
+===================================== -->
+
+<section class="hero">
+
+    <h1>
+        Rent what you need.
+    </h1>
+
+    <p>
+        Discover products listed by people around you.
+    </p>
+
+</section>
+
+
+<!-- =====================================
+     PRODUCTS
+===================================== -->
+
+<section class="products-section">
+
+    <h2 class="section-title">
+        Available for Rent
+    </h2>
+
+
+    <div
+            class="products"
+            id="products">
+
+        <div class="empty">
+
+            <h3>
+                Loading products...
+            </h3>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<script>
+
+    let allProducts = [];
+
+
+    /* =====================================
+       USER
+    ===================================== */
+
+    const user = JSON.parse(
+        localStorage.getItem("borrowBayUser")
+    );
+
+
+    if (!user) {
+
+        window.location.href =
+            "/login.html";
+
+    }
+
+
+    if (user) {
+
+        document.getElementById(
+            "menuUserName"
+        ).textContent =
+            user.name || "User";
+
+
+        document.getElementById(
+            "menuUserEmail"
+        ).textContent =
+            user.email ||
+            "user@email.com";
+
+    }
+
+
+    /* =====================================
+       MENU
+    ===================================== */
+
+    function openMenu() {
+
+        document
+            .getElementById("sideMenu")
+            .classList.add("active");
+
+
+        document
+            .getElementById("overlay")
+            .classList.add("active");
+
+    }
+
+
+    function closeMenu() {
+
+        document
+            .getElementById("sideMenu")
+            .classList.remove("active");
+
+
+        document
+            .getElementById("overlay")
+            .classList.remove("active");
+
+    }
+
+
+    /* =====================================
+       SETTINGS
+    ===================================== */
+
+    function toggleSettings() {
+
+        document
+            .getElementById("settingsSection")
+            .classList.toggle("active");
+
+    }
+
+
+    /* =====================================
+       LOGOUT
+    ===================================== */
+
+    function logout() {
+
+        localStorage.removeItem(
+            "borrowBayUser"
+        );
+
+
+        localStorage.removeItem(
+            "borrowBayCart"
+        );
+
+
+        window.location.href =
+            "/start.html";
+
+    }
+
+
+    /* =====================================
+       LOAD PRODUCTS
+    ===================================== */
+
+    async function loadProducts() {
+
+        const container =
+            document.getElementById(
+                "products"
+            );
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "/api/products"
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to load products"
+                );
+
+            }
+
+
+            const products =
+                await response.json();
+
+
+            /*
+             * Only AVAILABLE products
+             * appear on homepage.
+             */
+
+            allProducts =
+                products.filter(product =>
+
+                    product.availability &&
+
+                    product.availability
+                        .toLowerCase() ===
+                    "available"
+
+                );
+
+
+            displayProducts(
+                allProducts
+            );
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    <h3>
+                        Unable to load products
+                    </h3>
+
+                    <p>
+                        Please make sure the server is running.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =====================================
+       GET FIRST IMAGE
+    ===================================== */
+
+    function getFirstImage(imageData) {
+
+        if (!imageData) {
+            return "";
+        }
+
+
+        /*
+         * Older listings may contain a JSON
+         * array of images.
+         */
+
+        try {
+
+            const parsed =
+                JSON.parse(imageData);
+
+
+            if (Array.isArray(parsed)) {
+
+                return parsed[0] || "";
+
+            }
+
+
+            return imageData;
+
+        } catch (error) {
+
+            /*
+             * New listings store the image
+             * directly as a Base64 data URL.
+             */
+
+            return imageData;
+
+        }
+
+    }
+
+
+    /* =====================================
+       DISPLAY PRODUCTS
+    ===================================== */
+
+    function displayProducts(products) {
+
+        const container =
+            document.getElementById(
+                "products"
+            );
+
+
+        if (products.length === 0) {
+
+            container.innerHTML = `
+
+                <div class="empty">
+
+                    <h3>
+                        No products available yet
+                    </h3>
+
+                    <p>
+                        Be the first person to list something for rent.
+                    </p>
+
+                    <a
+                            href="/my-listings.html"
+                            class="list-btn">
+
+                        + Add Your Listing
+
+                    </a>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        products.forEach(product => {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "product-card";
+
+
+            /* =====================================
+               CARD CONTENT
+            ===================================== */
+
+            const productContent =
+                document.createElement(
+                    "div"
+                );
+
+            productContent.className =
+                "product-content";
+
+
+            /* PRODUCT NAME */
+
+            const productName =
+                document.createElement(
+                    "div"
+                );
+
+            productName.className =
+                "product-name";
+
+            productName.textContent =
+                product.name || "Unnamed Product";
+
+
+            /* CATEGORY */
+
+            const category =
+                document.createElement(
+                    "div"
+                );
+
+            category.className =
+                "category";
+
+            category.textContent =
+                product.category || "Other";
+
+
+            /* DESCRIPTION */
+
+            const description =
+                document.createElement(
+                    "div"
+                );
+
+            description.className =
+                "description";
+
+            description.textContent =
+                product.description ||
+                "No description available.";
+
+
+            /* OWNER */
+
+            const ownerName =
+                product.ownerName ||
+                product.ownerEmail ||
+                "Unknown";
+
+
+            const ownerPhone =
+                product.ownerPhone ||
+                "Not provided";
+
+
+            const owner =
+                document.createElement(
+                    "div"
+                );
+
+            owner.className =
+                "owner";
+
+            const ownerStrong =
+                document.createElement(
+                    "strong"
+                );
+
+            ownerStrong.textContent =
+                "Listed by: ";
+
+            owner.appendChild(
+                ownerStrong
+            );
+
+            owner.appendChild(
+                document.createTextNode(
+                    ownerName
+                )
+            );
+
+
+            /* OWNER PHONE */
+
+            const phone =
+                document.createElement(
+                    "div"
+                );
+
+            phone.className =
+                "owner-phone";
+
+            const phoneStrong =
+                document.createElement(
+                    "strong"
+                );
+
+            phoneStrong.textContent =
+                "📞 Owner: ";
+
+            phone.appendChild(
+                phoneStrong
+            );
+
+            phone.appendChild(
+                document.createTextNode(
+                    ownerPhone
+                )
+            );
+
+
+            /* =====================================
+               LOCATION
+            ===================================== */
+
+            const locationInfo =
+                document.createElement(
+                    "div"
+                );
+
+            locationInfo.className =
+                "location-info";
+
+
+            const pickup =
+                document.createElement(
+                    "div"
+                );
+
+            pickup.className =
+                "location-item";
+
+            const pickupStrong =
+                document.createElement(
+                    "strong"
+                );
+
+            pickupStrong.textContent =
+                "📍 Pickup Address";
+
+            pickup.appendChild(
+                pickupStrong
+            );
+
+            pickup.appendChild(
+                document.createElement(
+                    "br"
+                )
+            );
+
+            pickup.appendChild(
+                document.createTextNode(
+                    product.pickupAddress ||
+                    "Not provided"
+                )
+            );
+
+
+            const returnAddress =
+                document.createElement(
+                    "div"
+                );
+
+            returnAddress.className =
+                "location-item";
+
+            const returnStrong =
+                document.createElement(
+                    "strong"
+                );
+
+            returnStrong.textContent =
+                "↩️ Drop-off Address";
+
+            returnAddress.appendChild(
+                returnStrong
+            );
+
+            returnAddress.appendChild(
+                document.createElement(
+                    "br"
+                )
+            );
+
+            returnAddress.appendChild(
+                document.createTextNode(
+                    product.returnAddress ||
+                    "Not provided"
+                )
+            );
+
+
+            locationInfo.appendChild(
+                pickup
+            );
+
+            locationInfo.appendChild(
+                returnAddress
+            );
+
+
+            /* =====================================
+               PRICE + CART
+            ===================================== */
+
+            const bottomRow =
+                document.createElement(
+                    "div"
+                );
+
+            bottomRow.className =
+                "bottom-row";
+
+
+            const price =
+                document.createElement(
+                    "div"
+                );
+
+            price.className =
+                "price";
+
+            price.textContent =
+                `₹${Number(product.price) || 0}/day`;
+
+
+            const addCart =
+                document.createElement(
+                    "button"
+                );
+
+            addCart.className =
+                "add-cart";
+
+            addCart.textContent =
+                "Add to Cart";
+
+
+            addCart.addEventListener(
+                "click",
+                function() {
+
+                    addToCart(
+                        product.id
+                    );
+
+                }
+            );
+
+
+            bottomRow.appendChild(
+                price
+            );
+
+            bottomRow.appendChild(
+                addCart
+            );
+
+
+            /* =====================================
+               PRODUCT IMAGE
+            ===================================== */
+
+            const imageContainer =
+                document.createElement(
+                    "div"
+                );
+
+            imageContainer.className =
+                "product-image";
+
+
+            const firstImage =
+                getFirstImage(
+                    product.image
+                );
+
+
+            if (
+                firstImage &&
+                firstImage.trim() !== ""
+            ) {
+
+                /*
+                 * IMPORTANT:
+                 * Do NOT put the Base64 string
+                 * through escapeHTML().
+                 *
+                 * Set it directly on the
+                 * HTMLImageElement.
+                 */
+
+                const image =
+                    document.createElement(
+                        "img"
+                    );
+
+                image.alt =
+                    product.name ||
+                    "Product";
+
+                image.src =
+                    firstImage;
+
+
+                image.onerror =
+                    function() {
+
+                        image.style.display =
+                            "none";
+
+                        imageContainer
+                            .textContent =
+                            "📦";
+
+                    };
+
+
+                imageContainer.appendChild(
+                    image
+                );
+
+            } else {
+
+                imageContainer.textContent =
+                    "📦";
+
+            }
+
+
+            /* =====================================
+               BUILD CARD
+            ===================================== */
+
+            productContent.appendChild(
+                productName
+            );
+
+            productContent.appendChild(
+                category
+            );
+
+            productContent.appendChild(
+                description
+            );
+
+            productContent.appendChild(
+                owner
+            );
+
+            productContent.appendChild(
+                phone
+            );
+
+            productContent.appendChild(
+                locationInfo
+            );
+
+            productContent.appendChild(
+                bottomRow
+            );
+
+
+            card.appendChild(
+                imageContainer
+            );
+
+            card.appendChild(
+                productContent
+            );
+
+
+            container.appendChild(
+                card
+            );
+
+        });
+
+    }
+
+
+    /* =====================================
+       SEARCH
+    ===================================== */
+
+    function searchProducts() {
+
+        const query =
+            document
+                .getElementById(
+                    "searchInput"
+                )
+                .value
+                .toLowerCase()
+                .trim();
+
+
+        const filtered =
+            allProducts.filter(
+                product =>
+
+                    String(
+                        product.name || ""
+                    )
+                        .toLowerCase()
+                        .includes(query) ||
+
+                    String(
+                        product.category || ""
+                    )
+                        .toLowerCase()
+                        .includes(query) ||
+
+                    String(
+                        product.description || ""
+                    )
+                        .toLowerCase()
+                        .includes(query) ||
+
+                    String(
+                        product.ownerName || ""
+                    )
+                        .toLowerCase()
+                        .includes(query)
+
+            );
+
+
+        displayProducts(
+            filtered
+        );
+
+    }
+
+
+    /* =====================================
+       ADD TO CART
+    ===================================== */
+
+    function addToCart(productId) {
+
+        const product =
+            allProducts.find(
+                item =>
+                    item.id ===
+                    productId
+            );
+
+
+        if (!product) {
+
+            alert(
+                "Product not found."
+            );
+
+            return;
+
+        }
+
+
+        let cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "borrowBayCart"
+                )
+            ) || [];
+
+
+        /* PREVENT DUPLICATES */
+
+        const alreadyAdded =
+            cart.some(
+                item =>
+                    item.id ===
+                    product.id
+            );
+
+
+        if (alreadyAdded) {
+
+            alert(
+                "This product is already in your cart."
+            );
+
+            return;
+
+        }
+
+
+        cart.push({
+
+            id:
+            product.id,
+
+            name:
+            product.name,
+
+            category:
+            product.category,
+
+            description:
+            product.description,
+
+            price:
+            product.price,
+
+            image:
+            product.image,
+
+            ownerEmail:
+            product.ownerEmail,
+
+            ownerName:
+            product.ownerName,
+
+            ownerPhone:
+                product.ownerPhone || "",
+
+            pickupAddress:
+            product.pickupAddress,
+
+            returnAddress:
+            product.returnAddress,
+
+            upiId:
+            product.upiId
+
+        });
+
+
+        localStorage.setItem(
+            "borrowBayCart",
+            JSON.stringify(cart)
+        );
+
+
+        updateCartCount();
+
+
+        alert(
+            "Added to cart!"
+        );
+
+    }
+
+
+    /* =====================================
+       CART COUNT
+    ===================================== */
+
+    function updateCartCount() {
+
+        const cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "borrowBayCart"
+                )
+            ) || [];
+
+
+        document.getElementById(
+            "cartCount"
+        ).textContent =
+            cart.length;
+
+    }
+
+
+    /* =====================================
+       INITIAL LOAD
+    ===================================== */
+
+    updateCartCount();
+
+    loadProducts();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>BorrowBay | Register</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #18212f;
+            color: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 0;
+        }
+
+        /* =========================
+           REGISTER CARD
+        ========================= */
+
+        .container {
+            width: 90%;
+            max-width: 430px;
+            background: #222d3d;
+            border: 1px solid #2f3b4d;
+            padding: 38px;
+            border-radius: 18px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #f8fafc;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #14b8a6;
+        }
+
+        /* =========================
+           HEADING
+        ========================= */
+
+        h2 {
+            text-align: center;
+            margin: 25px 0 8px;
+            color: #f8fafc;
+            font-size: 23px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 28px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            background: #18212f;
+            color: #f8fafc;
+            border: 1px solid #3a4658;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s ease;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:focus {
+            border-color: #14b8a6;
+            box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.08);
+        }
+
+        /* =========================
+           REGISTER BUTTON
+        ========================= */
+
+        .register-btn {
+            width: 100%;
+            padding: 13px;
+            margin-top: 2px;
+            background: #14b8a6;
+            color: #ffffff;
+            border: 1px solid #14b8a6;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .register-btn:hover {
+            background: #2dd4bf;
+            border-color: #2dd4bf;
+        }
+
+        .register-btn:active {
+            transform: scale(0.99);
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            min-height: 20px;
+            line-height: 1.4;
+        }
+
+        .success {
+            color: #5eead4;
+        }
+
+        .error {
+            color: #f87171;
+        }
+
+        /* =========================
+           LOGIN LINK
+        ========================= */
+
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #2dd4bf;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            color: #5eead4;
+            text-decoration: underline;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 500px) {
+
+            body {
+                padding: 20px 0;
+            }
+
+            .container {
+                width: 92%;
+                padding: 30px 22px;
+                border-radius: 15px;
+            }
+
+            .logo {
+                font-size: 26px;
+            }
+
+            h2 {
+                font-size: 21px;
+                margin-top: 22px;
+            }
+
+            .subtitle {
+                margin-bottom: 24px;
+            }
+
+            input {
+                padding: 12px;
+            }
+
+            .register-btn {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 350px) {
+
+            .container {
+                padding: 26px 18px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+    <div class="logo">
+        Borrow<span>Bay</span>
+    </div>
+
+
+    <h2>
+        Create your account
+    </h2>
+
+
+    <p class="subtitle">
+        Start renting and sharing with BorrowBay
+    </p>
+
+
+    <form id="registerForm">
+
+        <label for="name">
+            Full Name
+        </label>
+
+        <input
+                type="text"
+                id="name"
+                placeholder="Enter your name"
+                required
+        >
+
+
+        <label for="email">
+            Email
+        </label>
+
+        <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                required
+        >
+
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+                type="password"
+                id="password"
+                placeholder="Create a password"
+                required
+        >
+
+
+        <button
+                type="submit"
+                class="register-btn">
+
+            Create Account
+
+        </button>
+
+    </form>
+
+
+    <div
+            id="message"
+            class="message">
+    </div>
+
+
+    <div class="login-link">
+
+        Already have an account?
+
+        <a href="/login.html">
+            Login
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    document
+        .getElementById("registerForm")
+        .addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+
+                const message =
+                    document.getElementById(
+                        "message"
+                    );
+
+
+                const user = {
+
+                    name:
+                    document
+                        .getElementById("name")
+                        .value,
+
+                    email:
+                    document
+                        .getElementById("email")
+                        .value,
+
+                    password:
+                    document
+                        .getElementById("password")
+                        .value
+
+                };
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "/api/auth/register",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(user)
+                            }
+                        );
+
+
+                    if (response.ok) {
+
+                        message.textContent =
+                            "Account created successfully!";
+
+                        message.className =
+                            "message success";
+
+
+                        setTimeout(() => {
+
+                            window.location.href =
+                                "/login.html";
+
+                        }, 1000);
+
+
+                    } else {
+
+                        const error =
+                            await response.text();
+
+
+                        message.textContent =
+                            error ||
+                            "Registration failed";
+
+                        message.className =
+                            "message error";
+
+                    }
+
+
+                } catch (error) {
+
+                    message.textContent =
+                        "Unable to connect to server";
+
+                    message.className =
+                        "message error";
+
+                }
+
+            }
+        );
+
+</script>
+
+
+</body>
+</html>

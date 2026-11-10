@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BorrowBay | Cart</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #18212f;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+            background: #0b1220;
+            display: flex;
+            align-items: center;
+            padding: 0 35px;
+            gap: 25px;
+            border-bottom: 1px solid #334155;
+        }
+
+        .back-btn {
+            border: none;
+            background: none;
+            font-size: 25px;
+            cursor: pointer;
+            color: #f8fafc;
+        }
+
+        .back-btn:hover {
+            color: #2dd4bf;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #f8fafc;
+        }
+
+        .logo span {
+            color: #14b8a6;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+        }
+
+        .page-title {
+            font-size: 32px;
+            color: #f8fafc;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            margin-top: 7px;
+            margin-bottom: 30px;
+        }
+
+        .cart-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .cart-items {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ================= CART ITEM ================= */
+
+        .cart-item {
+            background: #222d3d;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            display: flex;
+            gap: 20px;
+            transition: 0.2s;
+        }
+
+        .cart-item:hover {
+            border-color: #475569;
+        }
+
+        .product-image {
+            width: 150px;
+            height: 150px;
+            flex-shrink: 0;
+            background: #18212f;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 55px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .product-name {
+            font-size: 21px;
+            font-weight: bold;
+            color: #f8fafc;
+        }
+
+        .owner {
+            color: #94a3b8;
+            margin-top: 6px;
+            font-size: 14px;
+        }
+
+        .price {
+            font-size: 17px;
+            font-weight: bold;
+            margin-top: 12px;
+            color: #f8fafc;
+        }
+
+        /* ================= LOCATION ================= */
+
+        .location-info {
+            margin-top: 15px;
+            padding: 13px;
+            background: #18212f;
+            border: 1px solid #334155;
+            border-radius: 10px;
+        }
+
+        .location-item {
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.5;
+            word-break: break-word;
+        }
+
+        .location-item + .location-item {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #334155;
+        }
+
+        .location-item strong {
+            color: #2dd4bf;
+        }
+
+        /* ================= DATES ================= */
+
+        .dates {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .date-box {
+            flex: 1;
+        }
+
+        .date-box label {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 9px;
+            border: 1px solid #475569;
+            border-radius: 7px;
+            font-size: 13px;
+            background: #18212f;
+            color: #f8fafc;
+            color-scheme: dark;
+        }
+
+        input[type="date"]:focus {
+            outline: none;
+            border-color: #14b8a6;
+        }
+
+        .days {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+
+        .days strong {
+            color: #2dd4bf;
+        }
+
+        .item-total {
+            margin-top: 8px;
+            font-weight: bold;
+            color: #f8fafc;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .change-btn,
+        .remove-btn {
+            padding: 8px 13px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .change-btn {
+            background: transparent;
+            color: #2dd4bf;
+            border: 1px solid #14b8a6;
+        }
+
+        .change-btn:hover {
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .remove-btn {
+            background: transparent;
+            color: #f87171;
+            border: 1px solid #ef4444;
+        }
+
+        .remove-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .summary {
+            background: #222d3d;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            position: sticky;
+            top: 25px;
+        }
+
+        .summary h2 {
+            font-size: 21px;
+            margin-bottom: 22px;
+            color: #f8fafc;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            color: #94a3b8;
+            gap: 15px;
+        }
+
+        .summary-row span:last-child {
+            color: #f8fafc;
+            font-weight: bold;
+        }
+
+        .summary-total {
+            border-top: 1px solid #334155;
+            padding-top: 16px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 19px;
+            font-weight: bold;
+            color: #f8fafc;
+        }
+
+        .summary-total span:last-child {
+            color: #2dd4bf;
+        }
+
+        .payment-btn {
+            width: 100%;
+            margin-top: 22px;
+            padding: 13px;
+            background: #14b8a6;
+            color: #0b1220;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .payment-btn:hover {
+            background: #2dd4bf;
+        }
+
+        /* ================= EMPTY CART ================= */
+
+        .empty-cart {
+            background: #222d3d;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 60px 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 15px;
+        }
+
+        .empty-cart h2 {
+            margin-bottom: 8px;
+            color: #f8fafc;
+        }
+
+        .empty-cart p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+        .home-btn {
+            padding: 12px 20px;
+            background: #14b8a6;
+            color: #0b1220;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .home-btn:hover {
+            background: #2dd4bf;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 800px) {
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .container {
+                width: 92%;
+                margin: 30px auto;
+            }
+
+            .cart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .summary {
+                position: static;
+            }
+
+        }
+
+        @media (max-width: 550px) {
+
+            .cart-item {
+                flex-direction: column;
+            }
+
+            .product-image {
+                width: 100%;
+            }
+
+            .dates {
+                flex-direction: column;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header class="navbar">
+
+    <button
+            class="back-btn"
+            onclick="goBack()">
+
+        ←
+
+    </button>
+
+
+    <div class="logo">
+
+        Borrow<span>Bay</span>
+
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <h1 class="page-title">
+
+        Your Cart
+
+    </h1>
+
+
+    <p class="subtitle">
+
+        Review your rental items before payment
+
+    </p>
+
+
+    <div id="cartContent"></div>
+
+</main>
+
+
+<script>
+
+
+    /* ================= GET CART ================= */
+
+    function getCart() {
+
+        return JSON.parse(
+            localStorage.getItem("borrowBayCart")
+        ) || [];
+
+    }
+
+
+    /* ================= SAVE CART ================= */
+
+    function saveCart(cart) {
+
+        localStorage.setItem(
+            "borrowBayCart",
+            JSON.stringify(cart)
+        );
+
+    }
+
+
+    /* ================= GET FIRST IMAGE ================= */
+
+    function getFirstImage(imageData) {
+
+        if (!imageData) {
+            return "";
+        }
+
+        try {
+
+            const parsedImages =
+                JSON.parse(imageData);
+
+            if (
+                Array.isArray(parsedImages) &&
+                parsedImages.length > 0
+            ) {
+
+                return parsedImages[0];
+
+            }
+
+            if (
+                typeof parsedImages === "string"
+            ) {
+
+                return parsedImages;
+
+            }
+
+        } catch (error) {
+
+            /* Old single-image URL */
+
+            return String(imageData);
+
+        }
+
+        return "";
+
+    }
+
+
+    /* ================= CALCULATE DAYS ================= */
+
+    function calculateDays(startDate, endDate) {
+
+        if (!startDate || !endDate) {
+
+            return 1;
+
+        }
+
+        const start =
+            new Date(startDate);
+
+        const end =
+            new Date(endDate);
+
+        const difference =
+            end - start;
+
+        const days =
+            Math.ceil(
+                difference /
+                (1000 * 60 * 60 * 24)
+            );
+
+        return days > 0 ? days : 1;
+
+    }
+
+
+    /* ================= DISPLAY CART ================= */
+
+    function displayCart() {
+
+        const cart = getCart();
+
+        const content =
+            document.getElementById("cartContent");
+
+
+        /* EMPTY CART */
+
+        if (cart.length === 0) {
+
+            content.innerHTML = `
+
+                <div class="empty-cart">
+
+                    <div class="empty-icon">
+                        🛒
+                    </div>
+
+                    <h2>
+                        Your cart is empty
+                    </h2>
+
+                    <p>
+                        Add some products to your cart to start renting.
+                    </p>
+
+                    <button
+                        class="home-btn"
+                        onclick="goBack()">
+
+                        Browse Rentals
+
+                    </button>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        let itemsHTML = "";
+
+        let grandTotal = 0;
+
+        let summaryHTML = "";
+
+
+        cart.forEach((item, index) => {
+
+
+            const days =
+                calculateDays(
+                    item.startDate,
+                    item.endDate
+                );
+
+
+            const total =
+                Number(item.price || 0) * days;
+
+
+            grandTotal += total;
+
+
+            const ownerName =
+                item.ownerName ||
+                item.owner ||
+                "Unknown";
+
+
+            const pickupAddress =
+                item.pickupAddress ||
+                item.pickup ||
+                "Not provided";
+
+
+            const returnAddress =
+                item.returnAddress ||
+                item.returnLocation ||
+                item.dropOffAddress ||
+                "Not provided";
+
+
+            /* ================= IMAGE ================= */
+
+            const firstImage =
+                getFirstImage(item.image);
+
+            let imageHTML = "📦";
+
+
+            if (firstImage) {
+
+                imageHTML = `
+
+                    <img
+                        src="${escapeHTML(firstImage)}"
+                        alt="${escapeHTML(item.name || "Product")}"
+                        onerror="
+                            this.style.display='none';
+                            this.parentElement.innerHTML='📦';
+                        "
+                    >
+
+                `;
+
+            }
+
+
+            itemsHTML += `
+
+                <div class="cart-item">
+
+
+                    <div class="product-image">
+
+                        ${imageHTML}
+
+                    </div>
+
+
+                    <div class="item-info">
+
+
+                        <div class="product-name">
+
+                            ${escapeHTML(
+                item.name ||
+                "Unnamed Product"
+            )}
+
+                        </div>
+
+
+                        <div class="owner">
+
+                            Owner:
+                            ${escapeHTML(ownerName)}
+
+                        </div>
+
+
+                        <div class="price">
+
+                            ₹${Number(item.price || 0)} / day
+
+                        </div>
+
+
+                        <!-- PICKUP / DROP-OFF -->
+
+                        <div class="location-info">
+
+
+                            <div class="location-item">
+
+                                <strong>
+                                    📍 Pickup Address
+                                </strong>
+
+                                <br>
+
+                                ${escapeHTML(
+                pickupAddress
+            )}
+
+                            </div>
+
+
+                            <div class="location-item">
+
+                                <strong>
+                                    ↩️ Drop-off Address
+                                </strong>
+
+                                <br>
+
+                                ${escapeHTML(
+                returnAddress
+            )}
+
+                            </div>
+
+
+                        </div>
+
+
+                        <!-- RENTAL DATES -->
+
+                        <div class="dates">
+
+
+                            <div class="date-box">
+
+                                <label>
+                                    Start Date
+                                </label>
+
+
+                                <input
+                                    type="date"
+                                    id="startDate-${index}"
+                                    value="${item.startDate || ""}"
+                                    min="${getToday()}"
+                                    onchange="updateDate(
+                                        ${index},
+                                        'start',
+                                        this.value
+                                    )"
+                                >
+
+                            </div>
+
+
+                            <div class="date-box">
+
+                                <label>
+                                    End Date
+                                </label>
+
+
+                                <input
+                                    type="date"
+                                    id="endDate-${index}"
+                                    value="${item.endDate || ""}"
+                                    min="${item.startDate || getTomorrow()}"
+                                    onchange="updateDate(
+                                        ${index},
+                                        'end',
+                                        this.value
+                                    )"
+                                >
+
+                            </div>
+
+
+                        </div>
+
+
+                        <div class="days">
+
+                            Rental Days:
+                            <strong>
+                                ${days}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="item-total">
+
+                            Total: ₹${total}
+
+                        </div>
+
+
+                        <div class="item-actions">
+
+
+                            <button
+                                class="change-btn"
+                                onclick="changeDates(${index})">
+
+                                Change Dates
+
+                            </button>
+
+
+                            <button
+                                class="remove-btn"
+                                onclick="removeItem(${index})">
+
+                                Remove
+
+                            </button>
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+            `;
+
+
+            summaryHTML += `
+
+                <div class="summary-row">
+
+                    <span>
+
+                        ${escapeHTML(
+                item.name ||
+                "Product"
+            )}
+
+                    </span>
+
+                    <span>
+
+                        ₹${total}
+
+                    </span>
+
+                </div>
+
+            `;
+
+        });
+
+
+        content.innerHTML = `
+
+            <div class="cart-layout">
+
+
+                <section class="cart-items">
+
+                    ${itemsHTML}
+
+                </section>
+
+
+                <aside class="summary">
+
+                    <h2>
+
+                        Rental Summary
+
+                    </h2>
+
+
+                    ${summaryHTML}
+
+
+                    <div class="summary-total">
+
+                        <span>
+                            Total
+                        </span>
+
+                        <span>
+                            ₹${grandTotal}
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        class="payment-btn"
+                        onclick="proceedToPayment()">
+
+                        Proceed to Payment
+
+                    </button>
+
+
+                </aside>
+
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* ================= TODAY ================= */
+
+    function getToday() {
+
+        const today =
+            new Date();
+
+        const year =
+            today.getFullYear();
+
+        const month =
+            String(
+                today.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                today.getDate()
+            ).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+
+    /* ================= TOMORROW ================= */
+
+    function getTomorrow() {
+
+        const tomorrow =
+            new Date();
+
+        tomorrow.setDate(
+            tomorrow.getDate() + 1
+        );
+
+        const year =
+            tomorrow.getFullYear();
+
+        const month =
+            String(
+                tomorrow.getMonth() + 1
+            ).padStart(2, "0");
+
+        const day =
+            String(
+                tomorrow.getDate()
+            ).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+
+    }
+
+
+    /* ================= UPDATE DATE ================= */
+
+    function updateDate(index, type, value) {
+
+        const cart = getCart();
+
+
+        if (!cart[index]) {
+            return;
+        }
+
+
+        if (type === "start") {
+
+            cart[index].startDate = value;
+
+            /*
+             * If current end date is before/equal
+             * to the new start date, clear it.
+             */
+
+            if (
+                cart[index].endDate &&
+                new Date(cart[index].endDate)
+                <=
+                new Date(value)
+            ) {
+
+                cart[index].endDate = "";
+
+            }
+
+        }
+
+
+        if (type === "end") {
+
+            cart[index].endDate = value;
+
+        }
+
+
+        saveCart(cart);
+
+        displayCart();
+
+    }
+
+
+    /* ================= CHANGE DATES ================= */
+
+    function changeDates(index) {
+
+        const cart = getCart();
+
+        const item = cart[index];
+
+
+        if (!item) {
+            return;
+        }
+
+
+        if (
+            !item.startDate ||
+            !item.endDate
+        ) {
+
+            alert(
+                "Please select both rental dates."
+            );
+
+            return;
+
+        }
+
+
+        if (
+            new Date(item.endDate)
+            <=
+            new Date(item.startDate)
+        ) {
+
+            alert(
+                "End date must be after start date."
+            );
+
+            return;
+
+        }
+
+
+        saveCart(cart);
+
+        displayCart();
+
+    }
+
+
+    /* ================= REMOVE ITEM ================= */
+
+    function removeItem(index) {
+
+        const cart = getCart();
+
+        cart.splice(index, 1);
+
+        saveCart(cart);
+
+        displayCart();
+
+    }
+
+
+    /* ================= PROCEED TO PAYMENT ================= */
+
+    function proceedToPayment() {
+
+        const cart = getCart();
+
+
+        if (cart.length === 0) {
+
+            alert(
+                "Your cart is empty."
+            );
+
+            return;
+
+        }
+
+
+        for (let item of cart) {
+
+
+            if (
+                !item.startDate ||
+                !item.endDate
+            ) {
+
+                alert(
+                    "Please select rental dates for all items."
+                );
+
+                return;
+
+            }
+
+
+            if (
+                new Date(item.endDate)
+                <=
+                new Date(item.startDate)
+            ) {
+
+                alert(
+                    "Please select valid rental dates."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        window.location.href =
+            "/payment.html";
+
+    }
+
+
+    /* ================= BACK ================= */
+
+    function goBack() {
+
+        window.location.href =
+            "/index.html";
+
+    }
+
+
+    /* ================= ESCAPE HTML ================= */
+
+    function escapeHTML(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replace(/&/g, "&amp;")
+
+            .replace(/</g, "&lt;")
+
+            .replace(/>/g, "&gt;")
+
+            .replace(/"/g, "&quot;")
+
+            .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* ================= LOAD ================= */
+
+    displayCart();
+
+
+</script>
+
+
+</body>
+
+</html>

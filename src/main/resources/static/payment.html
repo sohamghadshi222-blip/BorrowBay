@@ -1,0 +1,1216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment - BorrowBay</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #18212f;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: #0b1220;
+            color: #f8fafc;
+            padding: 18px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #243044;
+            box-shadow: 0 4px 20px rgba(0,0,0,.18);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .back-btn {
+            background: #222d3d;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            padding: 10px 18px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: #14b8a6;
+            border-color: #14b8a6;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 40px auto;
+            padding: 0 22px 50px;
+        }
+
+        h1 {
+            margin-bottom: 26px;
+            font-size: 32px;
+        }
+
+        .payment-layout {
+            display: grid;
+            grid-template-columns: 1.4fr .8fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .card {
+            background: #222d3d;
+            border: 1px solid #2f3b4d;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 25px rgba(0,0,0,.18);
+        }
+
+        .card h2 {
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #334155;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .item-image {
+            width: 90px;
+            height: 75px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #18212f;
+            border: 1px solid #334155;
+            flex-shrink: 0;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .owner,
+        .date-info {
+            color: #94a3b8;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .item-price {
+            color: #2dd4bf;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .payment-method {
+            border: 1px solid #3a4658;
+            background: #1b2635;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .payment-method:hover,
+        .payment-method.selected {
+            border-color: #14b8a6;
+        }
+
+        .payment-method.selected {
+            border-width: 2px;
+            background: rgba(20,184,166,.08);
+        }
+
+        .payment-method label {
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .payment-method input {
+            accent-color: #14b8a6;
+        }
+
+        .upi-box {
+            margin: 15px 0;
+            display: none;
+        }
+
+        .upi-box input {
+            width: 100%;
+            padding: 12px;
+            background: #18212f;
+            color: #f8fafc;
+            border: 1px solid #3a4658;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        .upi-box input:focus {
+            border-color: #14b8a6;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 13px;
+            color: #94a3b8;
+        }
+
+        .summary-row span:last-child {
+            color: #e2e8f0;
+            font-weight: 600;
+        }
+
+        .total-row {
+            border-top: 1px solid #3a4658;
+            padding-top: 17px;
+            margin-top: 17px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 21px;
+            font-weight: 700;
+        }
+
+        .total-row span:last-child {
+            color: #2dd4bf;
+        }
+
+        .pay-btn,
+        .browse-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 25px;
+            background: #14b8a6;
+            color: white;
+            border: 1px solid #14b8a6;
+            border-radius: 9px;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .pay-btn:hover,
+        .browse-btn:hover {
+            background: #2dd4bf;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 60px 25px;
+        }
+
+        .empty h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            color: #94a3b8;
+            margin-bottom: 22px;
+        }
+
+        @media (max-width: 850px) {
+            .payment-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                padding: 15px 18px;
+            }
+
+            .container {
+                margin-top: 25px;
+                padding: 0 15px 35px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            .card {
+                padding: 19px;
+            }
+
+            .item-image {
+                width: 75px;
+                height: 65px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="navbar">
+
+    <div class="logo">
+        BorrowBay
+    </div>
+
+    <button class="back-btn" onclick="goBack()">
+        ← Back
+    </button>
+
+</div>
+
+
+<div class="container">
+
+    <h1>Payment</h1>
+
+    <div id="paymentContent"></div>
+
+</div>
+
+
+<script>
+
+
+    /* ==============================
+       CART
+    ============================== */
+
+    function getCart() {
+
+        try {
+
+            const cart =
+                JSON.parse(
+                    localStorage.getItem("borrowBayCart")
+                );
+
+            return Array.isArray(cart) ? cart : [];
+
+        } catch (error) {
+
+            return [];
+
+        }
+
+    }
+
+
+    /* ==============================
+       DATE
+    ============================== */
+
+    function formatDate(dateString) {
+
+        if (!dateString) {
+            return "Not selected";
+        }
+
+        const date = new Date(dateString);
+
+        if (isNaN(date.getTime())) {
+            return dateString;
+        }
+
+        return date.toLocaleDateString("en-IN", {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        });
+
+    }
+
+
+    /* ==============================
+       CALCULATE DAYS
+    ============================== */
+
+    function calculateDays(startDate, endDate) {
+
+        if (!startDate || !endDate) {
+            return 1;
+        }
+
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        if (
+            isNaN(start.getTime()) ||
+            isNaN(end.getTime())
+        ) {
+            return 1;
+        }
+
+        return Math.max(
+            Math.ceil(
+                (end - start) /
+                (1000 * 60 * 60 * 24)
+            ),
+            1
+        );
+
+    }
+
+
+    /* ==============================
+       DISPLAY PAYMENT
+    ============================== */
+
+    function displayPayment() {
+
+        const container =
+            document.getElementById(
+                "paymentContent"
+            );
+
+        const cart = getCart();
+
+
+        if (!cart.length) {
+
+            container.innerHTML = `
+
+            <div class="card empty">
+
+                <h2>
+                    Your cart is empty
+                </h2>
+
+                <p>
+                    Add an item to your cart
+                    before making a payment.
+                </p>
+
+                <button
+                    class="browse-btn"
+                    onclick="goBack()"
+                >
+                    Browse Items
+                </button>
+
+            </div>
+
+        `;
+
+            return;
+        }
+
+
+        let itemsHTML = "";
+
+
+        cart.forEach(item => {
+
+            const owner =
+                item.ownerName ||
+                item.owner ||
+                "Unknown";
+
+
+            itemsHTML += `
+
+            <div class="cart-item">
+
+                ${
+                item.image
+
+                    ?
+
+                    `<img
+                        class="item-image"
+                        src="${item.image}"
+                        alt="${item.name || "Item"}"
+                        onerror="this.style.display='none';"
+                    >`
+
+                    :
+
+                    `<div
+                        class="item-image"
+                        style="
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            font-size:30px;
+                        "
+                    >
+                        📦
+                    </div>`
+            }
+
+
+                <div class="item-info">
+
+                    <div class="item-name">
+                        ${item.name || "Unnamed Product"}
+                    </div>
+
+                    <div class="owner">
+                        Owner: ${owner}
+                    </div>
+
+                    <div class="item-price">
+                        ₹${item.price || 0} / day
+                    </div>
+
+                    <div class="date-info">
+
+                        ${formatDate(item.startDate)}
+                        –
+                        ${formatDate(item.endDate)}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+        });
+
+
+        container.innerHTML = `
+
+        <div class="payment-layout">
+
+
+            <div>
+
+
+                <div class="card">
+
+                    <h2>
+                        Rental Items
+                    </h2>
+
+                    ${itemsHTML}
+
+                </div>
+
+
+                <div
+                    class="card"
+                    style="margin-top:20px;"
+                >
+
+                    <h2>
+                        Payment Method
+                    </h2>
+
+
+                    <div
+                        class="payment-method"
+                        id="upiMethod"
+                        onclick="selectPayment('UPI')"
+                    >
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="payment"
+                                value="UPI"
+                            >
+
+                            UPI
+
+                        </label>
+
+                    </div>
+
+
+                    <div
+                        class="upi-box"
+                        id="upiBox"
+                    >
+
+                        <input
+                            type="text"
+                            id="upiId"
+                            placeholder="Enter UPI ID"
+                        >
+
+                    </div>
+
+
+                    <div
+                        class="payment-method"
+                        id="cardMethod"
+                        onclick="selectPayment('Card')"
+                    >
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="payment"
+                                value="Card"
+                            >
+
+                            Credit / Debit Card
+
+                        </label>
+
+                    </div>
+
+
+                    <div
+                        class="payment-method"
+                        id="codMethod"
+                        onclick="selectPayment('Cash')"
+                    >
+
+                        <label>
+
+                            <input
+                                type="radio"
+                                name="payment"
+                                value="Cash"
+                            >
+
+                            Cash on Pickup
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div>
+
+                <div class="card">
+
+                    <h2>
+                        Order Summary
+                    </h2>
+
+                    <div id="summary"></div>
+
+                    <button
+                        class="pay-btn"
+                        onclick="completePayment()"
+                    >
+                        Complete Payment
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    `;
+
+
+        updateSummary();
+
+    }
+
+
+    /* ==============================
+       PAYMENT
+    ============================== */
+
+    let selectedPayment = "";
+
+
+    function selectPayment(method) {
+
+        selectedPayment = method;
+
+
+        ["upiMethod", "cardMethod", "codMethod"]
+            .forEach(id => {
+
+                document
+                    .getElementById(id)
+                    .classList.remove("selected");
+
+            });
+
+
+        document
+            .getElementById("upiBox")
+            .style.display =
+            method === "UPI"
+                ? "block"
+                : "none";
+
+
+        const methodId = {
+
+            UPI: "upiMethod",
+            Card: "cardMethod",
+            Cash: "codMethod"
+
+        }[method];
+
+
+        document
+            .getElementById(methodId)
+            .classList.add("selected");
+
+
+        const radio =
+            document.querySelector(
+                `input[value="${method}"]`
+            );
+
+
+        if (radio) {
+            radio.checked = true;
+        }
+
+    }
+
+
+    /* ==============================
+       SUMMARY
+    ============================== */
+
+    function updateSummary() {
+
+        const cart = getCart();
+
+        const summary =
+            document.getElementById(
+                "summary"
+            );
+
+
+        if (!summary) {
+            return;
+        }
+
+
+        let total = 0;
+
+
+        cart.forEach(item => {
+
+            total +=
+                (Number(item.price) || 0) *
+                calculateDays(
+                    item.startDate,
+                    item.endDate
+                );
+
+        });
+
+
+        summary.innerHTML = `
+
+        <div class="summary-row">
+
+            <span>
+                Items
+            </span>
+
+            <span>
+                ${cart.length}
+            </span>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Rental charges
+            </span>
+
+            <span>
+                ₹${total}
+            </span>
+
+        </div>
+
+
+        <div class="summary-row">
+
+            <span>
+                Platform fee
+            </span>
+
+            <span>
+                ₹0
+            </span>
+
+        </div>
+
+
+        <div class="total-row">
+
+            <span>
+                Total
+            </span>
+
+            <span>
+                ₹${total}
+            </span>
+
+        </div>
+
+    `;
+
+    }
+
+
+    /* ==============================
+       COMPLETE PAYMENT
+    ============================== */
+
+    async function completePayment() {
+
+        const cart = getCart();
+
+
+        if (!cart.length) {
+
+            alert("Your cart is empty.");
+
+            return;
+
+        }
+
+
+        /* CHECK DATES */
+
+        for (const item of cart) {
+
+            if (
+                !item.startDate ||
+                !item.endDate
+            ) {
+
+                alert(
+                    "Please select rental dates for all items."
+                );
+
+                return;
+
+            }
+
+
+            const start =
+                new Date(item.startDate);
+
+            const end =
+                new Date(item.endDate);
+
+
+            if (
+                isNaN(start.getTime()) ||
+                isNaN(end.getTime())
+            ) {
+
+                alert(
+                    "Please select valid rental dates."
+                );
+
+                return;
+
+            }
+
+
+            if (end < start) {
+
+                alert(
+                    "Return date cannot be before pickup date."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        /* PAYMENT METHOD */
+
+        if (!selectedPayment) {
+
+            alert(
+                "Please select a payment method."
+            );
+
+            return;
+
+        }
+
+
+        /* UPI */
+
+        let enteredUpi = "";
+
+
+        if (selectedPayment === "UPI") {
+
+            const input =
+                document.getElementById("upiId");
+
+
+            enteredUpi =
+                input
+                    ? input.value.trim()
+                    : "";
+
+
+            if (!enteredUpi) {
+
+                alert(
+                    "Please enter your UPI ID."
+                );
+
+                return;
+
+            }
+
+        }
+
+
+        /* USER */
+
+        const userData =
+            localStorage.getItem(
+                "borrowBayUser"
+            );
+
+
+        if (!userData) {
+
+            alert(
+                "Please login before completing payment."
+            );
+
+            window.location.href =
+                "/login.html";
+
+            return;
+
+        }
+
+
+        let user;
+
+
+        try {
+
+            user =
+                JSON.parse(userData);
+
+        } catch (error) {
+
+            alert(
+                "Please login again."
+            );
+
+            window.location.href =
+                "/login.html";
+
+            return;
+
+        }
+
+
+        if (!user || !user.email) {
+
+            alert(
+                "User information not found."
+            );
+
+            return;
+
+        }
+
+
+        /* TOTAL */
+
+        let total = 0;
+
+
+        cart.forEach(item => {
+
+            total +=
+                (Number(item.price) || 0) *
+                calculateDays(
+                    item.startDate,
+                    item.endDate
+                );
+
+        });
+
+
+        /* ORDER ID */
+
+        const orderId =
+            "BB-" + Date.now();
+
+
+        /*
+         * SAVE THE OLD LOCAL ORDER TOO.
+         * This keeps your existing
+         * Order Success / History pages working.
+         */
+
+        const order = {
+
+            items: cart,
+
+            total: total,
+
+            paymentMethod:
+            selectedPayment,
+
+            orderId: orderId,
+
+            orderDate:
+                new Date().toISOString()
+
+        };
+
+
+        /*
+         * CREATE BACKEND BOOKINGS
+         */
+
+        try {
+
+            for (const item of cart) {
+
+                const days =
+                    calculateDays(
+                        item.startDate,
+                        item.endDate
+                    );
+
+
+                const booking = {
+
+                    productId:
+                    item.id,
+
+                    productName:
+                    item.name,
+
+                    renterName:
+                    user.name,
+
+                    renterEmail:
+                    user.email,
+
+                    renterPhone:
+                        user.phone || "",
+
+                    startDate:
+                    item.startDate,
+
+                    endDate:
+                    item.endDate,
+
+                    price:
+                        Number(item.price) || 0,
+
+                    totalAmount:
+                        (Number(item.price) || 0) *
+                        days,
+
+                    paymentMethod:
+                    selectedPayment,
+
+                    orderId:
+                    orderId,
+
+                    status:
+                        "CONFIRMED"
+
+                };
+
+
+                const response =
+                    await fetch(
+                        "/api/bookings",
+                        {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json"
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    booking
+                                )
+
+                        }
+                    );
+
+
+                if (!response.ok) {
+
+                    const message =
+                        await response.text();
+
+
+                    throw new Error(
+                        message ||
+                        "Booking failed"
+                    );
+
+                }
+
+            }
+
+
+            /*
+             * SAVE USER-SPECIFIC
+             * LOCAL HISTORY
+             */
+
+            const ordersKey =
+                "borrowBayOrders_" +
+                user.email.toLowerCase();
+
+
+            let orders = [];
+
+
+            try {
+
+                orders =
+                    JSON.parse(
+                        localStorage.getItem(
+                            ordersKey
+                        )
+                    ) || [];
+
+
+                if (!Array.isArray(orders)) {
+                    orders = [];
+                }
+
+            } catch (error) {
+
+                orders = [];
+
+            }
+
+
+            orders.push(order);
+
+
+            localStorage.setItem(
+                ordersKey,
+                JSON.stringify(orders)
+            );
+
+
+            /*
+             * SAVE LATEST ORDER
+             */
+
+            localStorage.setItem(
+                "borrowBayOrder",
+                JSON.stringify(order)
+            );
+
+
+            /*
+             * CLEAR CART
+             */
+
+            localStorage.removeItem(
+                "borrowBayCart"
+            );
+
+
+            /*
+             * SUCCESS PAGE
+             */
+
+            window.location.href =
+                "/order-success.html?payment=" +
+                encodeURIComponent(
+                    selectedPayment
+                );
+
+
+        } catch (error) {
+
+            console.error(
+                "Booking error:",
+                error
+            );
+
+
+            alert(
+                "Booking could not be completed.\n\n" +
+                error.message
+            );
+
+        }
+
+    }
+
+
+    /* ==============================
+       BACK
+    ============================== */
+
+    function goBack() {
+
+        window.location.href =
+            "/index.html";
+
+    }
+
+
+    /* ==============================
+       START
+    ============================== */
+
+    displayPayment();
+
+</script>
+
+
+</body>
+
+</html>

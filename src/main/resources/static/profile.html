@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>Profile | BorrowBay</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            background: #18212f;
+
+            color: #f8fafc;
+
+        }
+
+
+        /* HEADER */
+
+        header {
+
+            height: 70px;
+
+            background: #0b1220;
+
+            border-bottom: 1px solid #334155;
+
+            display: flex;
+
+            align-items: center;
+
+            padding: 0 30px;
+
+            gap: 20px;
+
+        }
+
+
+        .back {
+
+            font-size: 26px;
+
+            text-decoration: none;
+
+            color: #f8fafc;
+
+            transition: 0.2s;
+
+        }
+
+
+        .back:hover {
+
+            color: #14b8a6;
+
+        }
+
+
+        header h1 {
+
+            font-size: 23px;
+
+        }
+
+
+        /* CONTAINER */
+
+        .container {
+
+            max-width: 700px;
+
+            margin: 45px auto;
+
+            padding: 0 20px;
+
+        }
+
+
+        /* PROFILE CARD */
+
+        .profile-card {
+
+            background: #222d3d;
+
+            border: 1px solid #334155;
+
+            border-radius: 20px;
+
+            padding: 35px;
+
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+
+        }
+
+
+        /* AVATAR */
+
+        .avatar {
+
+            width: 90px;
+
+            height: 90px;
+
+            border-radius: 50%;
+
+            background: #14b8a6;
+
+            color: #0b1220;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 38px;
+
+            font-weight: bold;
+
+            margin: 0 auto 18px;
+
+        }
+
+
+        /* TITLE */
+
+        .profile-title {
+
+            text-align: center;
+
+            margin-bottom: 30px;
+
+        }
+
+
+        .profile-title h2 {
+
+            margin-bottom: 6px;
+
+            font-size: 25px;
+
+        }
+
+
+        .profile-title p {
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+        }
+
+
+        /* INFO BOX */
+
+        .info-box {
+
+            background: #18212f;
+
+            border: 1px solid #334155;
+
+            border-radius: 12px;
+
+            padding: 15px;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .info-label {
+
+            color: #94a3b8;
+
+            font-size: 13px;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .info-value {
+
+            font-weight: 600;
+
+            color: #f8fafc;
+
+            word-break: break-word;
+
+        }
+
+
+        /* ACTIONS */
+
+        .actions {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+        }
+
+
+        button {
+
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 12px 18px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+
+        }
+
+
+        .edit-btn,
+
+        .save-btn {
+
+            background: #14b8a6;
+
+            color: #0b1220;
+
+        }
+
+
+        .edit-btn:hover,
+
+        .save-btn:hover {
+
+            background: #2dd4bf;
+
+            transform: translateY(-1px);
+
+        }
+
+
+        .cancel-btn {
+
+            background: #334155;
+
+            color: #f8fafc;
+
+        }
+
+
+        .cancel-btn:hover {
+
+            background: #475569;
+
+        }
+
+
+        /* EDIT FORM */
+
+        .edit-form {
+
+            display: none;
+
+        }
+
+
+        .field {
+
+            margin-bottom: 20px;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            color: #cbd5e1;
+
+            font-weight: 600;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+
+        }
+
+
+        input {
+
+            width: 100%;
+
+            padding: 13px 14px;
+
+            background: #18212f;
+
+            color: #f8fafc;
+
+            border: 1px solid #475569;
+
+            border-radius: 9px;
+
+            font-size: 15px;
+
+        }
+
+
+        input:focus {
+
+            outline: none;
+
+            border-color: #14b8a6;
+
+            box-shadow: 0 0 0 2px rgba(20,184,166,0.15);
+
+        }
+
+
+        input::placeholder {
+
+            color: #64748b;
+
+        }
+
+
+        /* PHONE HINT */
+
+        .phone-hint {
+
+            color: #64748b;
+
+            font-size: 12px;
+
+            margin-top: 6px;
+
+        }
+
+
+        /* MESSAGE */
+
+        .message {
+
+            margin-top: 15px;
+
+            font-weight: 600;
+
+            font-size: 14px;
+
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            header {
+
+                padding: 0 18px;
+
+            }
+
+
+            header h1 {
+
+                font-size: 20px;
+
+            }
+
+
+            .container {
+
+                margin: 25px auto;
+
+            }
+
+
+            .profile-card {
+
+                padding: 25px 20px;
+
+            }
+
+
+            .actions {
+
+                flex-direction: column;
+
+            }
+
+
+            .actions button {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <a
+            href="/index.html"
+            class="back">
+
+        ←
+
+    </a>
+
+
+    <h1>
+        Profile
+    </h1>
+
+</header>
+
+
+
+<div class="container">
+
+
+    <div class="profile-card">
+
+
+        <!-- AVATAR -->
+
+        <div
+                class="avatar"
+                id="avatar">
+
+            U
+
+        </div>
+
+
+
+        <!-- PROFILE TITLE -->
+
+        <div class="profile-title">
+
+            <h2 id="profileName">
+                User
+            </h2>
+
+            <p>
+                BorrowBay Account
+            </p>
+
+        </div>
+
+
+
+        <!-- VIEW PROFILE -->
+
+        <div id="viewProfile">
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Name
+                </div>
+
+                <div
+                        class="info-value"
+                        id="viewName">
+
+                </div>
+
+            </div>
+
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Email
+                </div>
+
+                <div
+                        class="info-value"
+                        id="viewEmail">
+
+                </div>
+
+            </div>
+
+
+
+            <div class="info-box">
+
+                <div class="info-label">
+                    Phone Number
+                </div>
+
+                <div
+                        class="info-value"
+                        id="viewPhone">
+
+                </div>
+
+            </div>
+
+
+
+            <div class="actions">
+
+                <button
+                        class="edit-btn"
+                        onclick="openEdit()">
+
+                    Edit Profile
+
+                </button>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- EDIT PROFILE -->
+
+        <div
+                class="edit-form"
+                id="editForm">
+
+
+            <div class="field">
+
+                <label>
+                    Name
+                </label>
+
+                <input
+                        type="text"
+                        id="editName"
+                        placeholder="Enter your name"
+                        required>
+
+            </div>
+
+
+
+            <div class="field">
+
+                <label>
+                    Email
+                </label>
+
+                <input
+                        type="email"
+                        id="editEmail"
+                        placeholder="Enter your email"
+                        required>
+
+            </div>
+
+
+
+            <div class="field">
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input
+                        type="tel"
+                        id="editPhone"
+                        placeholder="Enter 10-digit mobile number"
+                        maxlength="10"
+                        inputmode="numeric">
+
+                <div class="phone-hint">
+                    Example: 9876543210
+                </div>
+
+            </div>
+
+
+
+            <div class="actions">
+
+                <button
+                        class="save-btn"
+                        onclick="saveProfile()">
+
+                    Save Changes
+
+                </button>
+
+
+                <button
+                        class="cancel-btn"
+                        onclick="closeEdit()">
+
+                    Cancel
+
+                </button>
+
+            </div>
+
+
+
+            <div
+                    class="message"
+                    id="message">
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+    /* GET LOGGED-IN USER */
+
+    let user = JSON.parse(
+        localStorage.getItem("borrowBayUser")
+    );
+
+
+    if (!user) {
+
+        window.location.href =
+            "/login.html";
+
+    }
+
+
+
+    /* LOAD PROFILE */
+
+    function loadProfile() {
+
+        document.getElementById(
+            "profileName"
+        ).textContent =
+            user.name || "User";
+
+
+        document.getElementById(
+            "viewName"
+        ).textContent =
+            user.name || "Not provided";
+
+
+        document.getElementById(
+            "viewEmail"
+        ).textContent =
+            user.email || "Not provided";
+
+
+        document.getElementById(
+            "viewPhone"
+        ).textContent =
+            user.phone || "Not provided";
+
+
+        const firstLetter =
+            user.name
+                ? user.name
+                    .charAt(0)
+                    .toUpperCase()
+                : "U";
+
+
+        document.getElementById(
+            "avatar"
+        ).textContent =
+            firstLetter;
+
+    }
+
+
+
+    /* OPEN EDIT */
+
+    function openEdit() {
+
+        document.getElementById(
+            "editName"
+        ).value =
+            user.name || "";
+
+
+        document.getElementById(
+            "editEmail"
+        ).value =
+            user.email || "";
+
+
+        document.getElementById(
+            "editPhone"
+        ).value =
+            user.phone || "";
+
+
+        document.getElementById(
+            "viewProfile"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "editForm"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            "";
+
+    }
+
+
+
+    /* CLOSE EDIT */
+
+    function closeEdit() {
+
+        document.getElementById(
+            "editForm"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "viewProfile"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "message"
+        ).textContent =
+            "";
+
+    }
+
+
+
+    /* SAVE PROFILE */
+
+    async function saveProfile() {
+
+
+        const name =
+            document
+                .getElementById("editName")
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById("editEmail")
+                .value
+                .trim();
+
+
+        const phone =
+            document
+                .getElementById("editPhone")
+                .value
+                .trim();
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        /* VALIDATION */
+
+        if (!name || !email) {
+
+            message.textContent =
+                "Name and email are required.";
+
+            message.style.color =
+                "#ef4444";
+
+            return;
+
+        }
+
+
+        if (
+            phone &&
+            !/^[6-9]\d{9}$/.test(phone)
+        ) {
+
+            message.textContent =
+                "Enter a valid 10-digit mobile number.";
+
+            message.style.color =
+                "#ef4444";
+
+            return;
+
+        }
+
+
+
+        try {
+
+
+            message.textContent =
+                "Saving...";
+
+            message.style.color =
+                "#94a3b8";
+
+
+
+            const response =
+                await fetch(
+                    `/api/auth/profile?oldEmail=${encodeURIComponent(user.email)}`,
+                    {
+
+                        method: "PUT",
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                name: name,
+
+                                email: email,
+
+                                phone: phone
+
+                            })
+
+                    }
+                );
+
+
+
+            if (!response.ok) {
+
+
+                const error =
+                    await response.text();
+
+
+                message.textContent =
+                    error ||
+                    "Unable to update profile.";
+
+
+                message.style.color =
+                    "#ef4444";
+
+
+                return;
+
+            }
+
+
+
+            const updatedUser =
+                await response.json();
+
+
+
+            /*
+             * Update localStorage
+             * with latest profile data.
+             */
+
+            user = {
+
+                id:
+                updatedUser.id,
+
+                name:
+                updatedUser.name,
+
+                email:
+                updatedUser.email,
+
+                phone:
+                    updatedUser.phone || ""
+
+            };
+
+
+
+            localStorage.setItem(
+
+                "borrowBayUser",
+
+                JSON.stringify(user)
+
+            );
+
+
+
+            message.textContent =
+                "Profile updated successfully!";
+
+
+            message.style.color =
+                "#14b8a6";
+
+
+
+            loadProfile();
+
+
+
+            setTimeout(() => {
+
+                closeEdit();
+
+            }, 700);
+
+
+        } catch (error) {
+
+
+            console.error(error);
+
+
+            message.textContent =
+                "Unable to connect to server.";
+
+
+            message.style.color =
+                "#ef4444";
+
+        }
+
+    }
+
+
+
+    /* INITIAL LOAD */
+
+    loadProfile();
+
+
+</script>
+
+
+</body>
+
+</html>

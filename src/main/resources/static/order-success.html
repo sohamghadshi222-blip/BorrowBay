@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BorrowBay | Order Successful</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #18212f;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            height: 75px;
+            background: #0b1220;
+            border-bottom: 1px solid #243044;
+            display: flex;
+            align-items: center;
+            padding: 0 50px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.18);
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: 700;
+            color: #f8fafc;
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: #14b8a6;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+            width: 90%;
+            max-width: 680px;
+            margin: 50px auto 60px;
+        }
+
+        /* =========================
+           SUCCESS CARD
+        ========================= */
+
+        .success-card {
+            background: #222d3d;
+            border: 1px solid #2f3b4d;
+            border-radius: 18px;
+            padding: 42px;
+            text-align: center;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.22);
+        }
+
+        /* =========================
+           SUCCESS ICON
+        ========================= */
+
+        .success-icon {
+            width: 78px;
+            height: 78px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: rgba(20, 184, 166, 0.13);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            color: #2dd4bf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 10px;
+            color: #f8fafc;
+            letter-spacing: -0.4px;
+        }
+
+        .success-text {
+            color: #94a3b8;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        /* =========================
+           ORDER DETAILS
+        ========================= */
+
+        .order-box {
+            text-align: left;
+            border-top: 1px solid #334155;
+            padding-top: 24px;
+        }
+
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 14px 0;
+            border-bottom: 1px solid #2d3748;
+        }
+
+        .order-row span:first-child {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        .order-row span:last-child {
+            color: #f8fafc;
+            font-weight: 600;
+            text-align: right;
+            font-size: 14px;
+        }
+
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            padding-top: 19px;
+            border-bottom: none;
+        }
+
+        .total span:first-child {
+            color: #f8fafc;
+            font-size: 16px;
+        }
+
+        .total span:last-child {
+            color: #2dd4bf;
+            font-size: 21px;
+        }
+
+        /* =========================
+           STATUS
+        ========================= */
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 13px;
+            border-radius: 20px;
+            background: rgba(20, 184, 166, 0.13);
+            border: 1px solid rgba(20, 184, 166, 0.25);
+            color: #5eead4;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           RENTAL ITEMS
+        ========================= */
+
+        .items-section {
+            margin-top: 28px;
+            text-align: left;
+        }
+
+        .items-section h3 {
+            margin-bottom: 15px;
+            font-size: 18px;
+            color: #f8fafc;
+        }
+
+        .item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            background: #1b2635;
+            border: 1px solid #2f3b4d;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: 0.2s ease;
+        }
+
+        .item:hover {
+            border-color: #3b4a60;
+            background: #202c3d;
+        }
+
+        .item-image {
+            width: 72px;
+            height: 72px;
+            border-radius: 9px;
+            background: #18212f;
+            border: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .item-name {
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 6px;
+            font-size: 16px;
+        }
+
+        .item-details {
+            color: #94a3b8;
+            font-size: 12px;
+            line-height: 1.6;
+            word-break: break-word;
+        }
+
+        .owner-phone {
+            color: #cbd5e1;
+        }
+
+        .owner-phone strong {
+            color: #2dd4bf;
+        }
+
+        .contact-box {
+            margin-top: 10px;
+            padding: 9px 11px;
+            background: rgba(20, 184, 166, 0.08);
+            border: 1px solid rgba(20, 184, 166, 0.22);
+            border-radius: 8px;
+            color: #cbd5e1;
+            font-size: 13px;
+        }
+
+        .contact-box strong {
+            color: #5eead4;
+        }
+
+        /* =========================
+           HOME BUTTON
+        ========================= */
+
+        .home-button {
+            width: 100%;
+            margin-top: 30px;
+            padding: 14px;
+            border: 1px solid #14b8a6;
+            border-radius: 9px;
+            background: #14b8a6;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .home-button:hover {
+            background: #2dd4bf;
+            border-color: #2dd4bf;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            .navbar {
+                height: 68px;
+                padding: 0 20px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            .container {
+                width: 92%;
+                margin-top: 30px;
+                margin-bottom: 40px;
+            }
+
+            .success-card {
+                padding: 30px 20px;
+                border-radius: 15px;
+            }
+
+            .success-icon {
+                width: 70px;
+                height: 70px;
+                font-size: 36px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .order-row {
+                gap: 15px;
+            }
+
+            .order-row span:first-child,
+            .order-row span:last-child {
+                font-size: 13px;
+            }
+
+            .item-image {
+                width: 60px;
+                height: 60px;
+            }
+
+            .item-name {
+                font-size: 15px;
+            }
+
+            .home-button {
+                padding: 13px;
+            }
+        }
+
+        @media (max-width: 400px) {
+
+            .success-card {
+                padding: 25px 16px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .order-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+
+            .order-row span:last-child {
+                text-align: left;
+            }
+
+            .total {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .total span:last-child {
+                text-align: right;
+            }
+
+            .item {
+                gap: 10px;
+            }
+
+            .item-image {
+                width: 55px;
+                height: 55px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<header class="navbar">
+
+    <div class="logo">
+        Borrow<span>Bay</span>
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <div class="success-card">
+
+        <!-- SUCCESS ICON -->
+
+        <div class="success-icon">
+            ✓
+        </div>
+
+
+        <h1>
+            Payment Successful!
+        </h1>
+
+
+        <p class="success-text">
+            Your rental has been confirmed successfully.
+        </p>
+
+
+        <!-- ORDER DETAILS -->
+
+        <div class="order-box">
+
+            <div class="order-row">
+
+                <span>
+                    Order ID
+                </span>
+
+                <span id="orderId">
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="order-row">
+
+                <span>
+                    Payment Method
+                </span>
+
+                <span id="paymentMethod">
+                    -
+                </span>
+
+            </div>
+
+
+            <div class="order-row">
+
+                <span>
+                    Order Status
+                </span>
+
+                <span>
+                    <span class="status">
+                        Confirmed
+                    </span>
+                </span>
+
+            </div>
+
+
+            <div class="order-row total">
+
+                <span>
+                    Total Amount
+                </span>
+
+                <span id="totalAmount">
+                    ₹0
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- RENTAL ITEMS -->
+
+        <div class="items-section">
+
+            <h3>
+                Rental Details
+            </h3>
+
+            <div id="itemsContainer"></div>
+
+        </div>
+
+
+        <!-- HOME BUTTON -->
+
+        <button
+                class="home-button"
+                onclick="goHome()">
+
+            Go to Homepage
+
+        </button>
+
+    </div>
+
+</main>
+
+
+<script>
+
+    /* =========================
+       ESCAPE HTML
+    ========================= */
+
+    function escapeHTML(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+            return "";
+        }
+
+        return String(value)
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+
+    /* =========================
+       GET FIRST IMAGE
+    ========================= */
+
+    function getFirstImage(imageData) {
+
+        if (!imageData) {
+            return "";
+        }
+
+        try {
+
+            const parsedImages =
+                JSON.parse(imageData);
+
+            if (
+                Array.isArray(parsedImages) &&
+                parsedImages.length > 0
+            ) {
+                return parsedImages[0];
+            }
+
+            if (
+                typeof parsedImages === "string"
+            ) {
+                return parsedImages;
+            }
+
+        } catch (error) {
+
+            // Old single-image format
+            return String(imageData);
+
+        }
+
+        return "";
+    }
+
+
+    /* =========================
+       LOAD ORDER
+    ========================= */
+
+    function loadOrder() {
+
+        const orderData =
+            localStorage.getItem(
+                "borrowBayOrder"
+            );
+
+
+        if (!orderData) {
+
+            showNoOrder();
+
+            return;
+
+        }
+
+
+        let order;
+
+
+        try {
+
+            order =
+                JSON.parse(orderData);
+
+        } catch (error) {
+
+            console.error(
+                "Error reading order:",
+                error
+            );
+
+            showNoOrder();
+
+            return;
+        }
+
+
+        /* ORDER ID */
+
+        document.getElementById(
+            "orderId"
+        ).textContent =
+            order.orderId || "-";
+
+
+        /* PAYMENT METHOD */
+
+        document.getElementById(
+            "paymentMethod"
+        ).textContent =
+            order.paymentMethod || "-";
+
+
+        /* TOTAL */
+
+        document.getElementById(
+            "totalAmount"
+        ).textContent =
+            "₹" +
+            Number(order.total || 0)
+                .toLocaleString("en-IN");
+
+
+        /* ITEMS */
+
+        const container =
+            document.getElementById(
+                "itemsContainer"
+            );
+
+
+        container.innerHTML = "";
+
+
+        if (
+            !order.items ||
+            order.items.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <p style="color:#94a3b8;">
+
+                    No rental details available.
+
+                </p>
+
+            `;
+
+            return;
+
+        }
+
+
+        order.items.forEach(item => {
+
+            const days =
+                calculateDays(
+                    item.startDate,
+                    item.endDate
+                );
+
+
+            const itemPrice =
+                Number(item.price) || 0;
+
+
+            const itemTotal =
+                itemPrice * days;
+
+
+            const ownerName =
+                item.ownerName ||
+                item.owner ||
+                "Unknown";
+
+
+            const ownerPhone =
+                item.ownerPhone ||
+                "Not provided";
+
+
+            const pickupAddress =
+                item.pickupAddress ||
+                item.pickup ||
+                "Not provided";
+
+
+            const returnAddress =
+                item.returnAddress ||
+                item.returnLocation ||
+                item.dropOffAddress ||
+                "Not provided";
+
+
+            const firstImage =
+                getFirstImage(item.image);
+
+
+            let imageContent;
+
+
+            if (firstImage) {
+
+                imageContent = `
+
+                    <img
+                        src="${escapeHTML(firstImage)}"
+                        alt="${escapeHTML(
+                    item.name || "Rental item"
+                )}"
+                        onerror="
+                            this.parentElement.innerHTML='📦';
+                        "
+                    >
+
+                `;
+
+            } else {
+
+                imageContent = "📦";
+
+            }
+
+
+            const itemElement =
+                document.createElement(
+                    "div"
+                );
+
+
+            itemElement.className =
+                "item";
+
+
+            itemElement.innerHTML = `
+
+                <div class="item-image">
+
+                    ${imageContent}
+
+                </div>
+
+
+                <div class="item-info">
+
+                    <div class="item-name">
+
+                        ${escapeHTML(
+                item.name ||
+                "Unnamed Product"
+            )}
+
+                    </div>
+
+
+                    <div class="item-details">
+
+                        Owner:
+                        ${escapeHTML(
+                ownerName
+            )}
+
+                    </div>
+
+
+                    <div class="item-details">
+
+                        Rental:
+                        ${formatDate(
+                item.startDate
+            )}
+
+                        →
+
+                        ${formatDate(
+                item.endDate
+            )}
+
+                    </div>
+
+
+                    <div class="item-details">
+
+                        ${days}
+                        day${days > 1 ? "s" : ""}
+
+                        × ₹${itemPrice}/day
+
+                        =
+                        ₹${itemTotal.toLocaleString("en-IN")}
+
+                    </div>
+
+
+                    <div class="item-details">
+
+                        <strong>
+                            Pickup:
+                        </strong>
+
+                        ${escapeHTML(
+                pickupAddress
+            )}
+
+                    </div>
+
+
+                    <div class="item-details">
+
+                        <strong>
+                            Return:
+                        </strong>
+
+                        ${escapeHTML(
+                returnAddress
+            )}
+
+                    </div>
+
+
+                    <div class="contact-box">
+
+                        <strong>
+                            📞 Owner Contact:
+                        </strong>
+
+                        ${escapeHTML(
+                ownerPhone
+            )}
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                itemElement
+            );
+
+        });
+
+    }
+
+
+    /* =========================
+       CALCULATE DAYS
+    ========================= */
+
+    function calculateDays(
+        start,
+        end
+    ) {
+
+        if (!start || !end) {
+            return 1;
+        }
+
+
+        const startDate =
+            new Date(start);
+
+
+        const endDate =
+            new Date(end);
+
+
+        if (
+            isNaN(startDate.getTime()) ||
+            isNaN(endDate.getTime())
+        ) {
+            return 1;
+        }
+
+
+        const difference =
+            endDate - startDate;
+
+
+        const days =
+            Math.ceil(
+                difference /
+                (1000 * 60 * 60 * 24)
+            );
+
+
+        return days > 0
+            ? days
+            : 1;
+
+    }
+
+
+    /* =========================
+       FORMAT DATE
+    ========================= */
+
+    function formatDate(date) {
+
+        if (!date) {
+            return "Date not selected";
+        }
+
+
+        const d =
+            new Date(date);
+
+
+        if (isNaN(d.getTime())) {
+            return "Date not selected";
+        }
+
+
+        return d.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =========================
+       NO ORDER
+    ========================= */
+
+    function showNoOrder() {
+
+        document.getElementById(
+            "orderId"
+        ).textContent =
+            "Not available";
+
+
+        document.getElementById(
+            "paymentMethod"
+        ).textContent =
+            "Not available";
+
+
+        document.getElementById(
+            "totalAmount"
+        ).textContent =
+            "₹0";
+
+
+        document.getElementById(
+            "itemsContainer"
+        ).innerHTML = `
+
+            <p style="color:#94a3b8;">
+
+                Order information could not be found.
+
+            </p>
+
+        `;
+
+    }
+
+
+    /* =========================
+       HOME
+    ========================= */
+
+    function goHome() {
+
+        window.location.href =
+            "/index.html";
+
+    }
+
+
+    /* =========================
+       START
+    ========================= */
+
+    loadOrder();
+
+</script>
+
+</body>
+
+</html>

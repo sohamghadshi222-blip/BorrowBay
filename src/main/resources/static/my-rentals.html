@@ -1,0 +1,1283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>My Rentals - BorrowBay</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #18212f;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+            background: #0b1220;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+        }
+
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+
+        .back-btn {
+            background: #18212f;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+
+        .back-btn:hover {
+            border-color: #14b8a6;
+            color: #2dd4bf;
+        }
+
+
+        /* ==============================
+           CONTAINER
+        ============================== */
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px 50px;
+        }
+
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 32px;
+        }
+
+
+        #rentalsContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+
+        /* ==============================
+           RENTAL CARD
+        ============================== */
+
+        .rental-card {
+            background: #222d3d;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            gap: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .product-image {
+            width: 180px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #18212f;
+            flex-shrink: 0;
+        }
+
+
+        .image-placeholder {
+            width: 180px;
+            height: 150px;
+            border-radius: 10px;
+            background: #18212f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            flex-shrink: 0;
+        }
+
+
+        .product-info {
+            flex: 1;
+        }
+
+
+        .product-name {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+
+        .owner {
+            color: #94a3b8;
+            margin-bottom: 12px;
+        }
+
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 25px;
+            margin-top: 12px;
+        }
+
+
+        .detail {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+
+
+        .detail strong {
+            color: #f8fafc;
+        }
+
+
+        .price {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2dd4bf;
+            margin-top: 15px;
+        }
+
+
+        /* ==============================
+           STATUS
+        ============================== */
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 12px;
+        }
+
+
+        .active {
+            background: rgba(20, 184, 166, 0.15);
+            color: #2dd4bf;
+            border: 1px solid rgba(20, 184, 166, 0.3);
+        }
+
+
+        .upcoming {
+            background: rgba(59, 130, 246, 0.15);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+
+        .completed {
+            background: rgba(148, 163, 184, 0.15);
+            color: #94a3b8;
+            border: 1px solid #475569;
+        }
+
+
+        .confirmed {
+            background: rgba(20, 184, 166, 0.15);
+            color: #2dd4bf;
+            border: 1px solid rgba(20, 184, 166, 0.3);
+        }
+
+
+        .returned {
+            background: rgba(148, 163, 184, 0.15);
+            color: #94a3b8;
+            border: 1px solid #475569;
+        }
+
+
+        /* ==============================
+           BUTTON
+        ============================== */
+
+        .view-btn {
+            margin-top: 15px;
+            padding: 9px 16px;
+            border: 1px solid #14b8a6;
+            border-radius: 7px;
+            background: #18212f;
+            color: #2dd4bf;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+
+        .view-btn:hover {
+            background: #14b8a6;
+            color: #0b1220;
+        }
+
+
+        /* ==============================
+           EMPTY
+        ============================== */
+
+        .empty-state {
+            background: #222d3d;
+            border: 1px solid #334155;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+
+        .empty-state h2 {
+            margin-bottom: 10px;
+        }
+
+
+        .empty-state p {
+            color: #94a3b8;
+            margin-bottom: 20px;
+        }
+
+
+        .browse-btn {
+            background: #14b8a6;
+            color: #0b1220;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+
+        .browse-btn:hover {
+            background: #2dd4bf;
+        }
+
+
+        /* ==============================
+           ERROR
+        ============================== */
+
+        .error-state {
+            background: #222d3d;
+            border: 1px solid #7f1d1d;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 14px;
+        }
+
+
+        .error-state h2 {
+            color: #f87171;
+            margin-bottom: 10px;
+        }
+
+
+        .error-state p {
+            color: #94a3b8;
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 15px 20px;
+            }
+
+
+            .container {
+                margin-top: 25px;
+            }
+
+
+            .rental-card {
+                flex-direction: column;
+            }
+
+
+            .product-image,
+            .image-placeholder {
+                width: 100%;
+                height: 200px;
+            }
+
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==============================
+     NAVBAR
+============================== -->
+
+<div class="navbar">
+
+    <div class="logo">
+        BorrowBay
+    </div>
+
+
+    <button
+            class="back-btn"
+            onclick="goBack()">
+
+        ← Back
+
+    </button>
+
+</div>
+
+
+<!-- ==============================
+     MAIN
+============================== -->
+
+<div class="container">
+
+    <h1>
+        My Rentals
+    </h1>
+
+
+    <div id="rentalsContainer">
+
+        <div class="empty-state">
+
+            <h2>
+                Loading Rentals...
+            </h2>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+
+    /* =========================================
+       GET LOGGED-IN USER
+    ========================================= */
+
+    function getLoggedInUser() {
+
+        const userData =
+            localStorage.getItem(
+                "borrowBayUser"
+            );
+
+
+        if (!userData) {
+
+            return null;
+
+        }
+
+
+        try {
+
+            return JSON.parse(
+                userData
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Error reading user:",
+                error
+            );
+
+            return null;
+
+        }
+
+    }
+
+
+    /* =========================================
+       FORMAT DATE
+    ========================================= */
+
+    function formatDate(dateString) {
+
+        if (!dateString) {
+
+            return "Not provided";
+
+        }
+
+
+        const date =
+            new Date(dateString);
+
+
+        if (isNaN(date.getTime())) {
+
+            return dateString;
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =========================================
+       GET STATUS
+    ========================================= */
+
+    function getRentalStatus(
+        booking
+    ) {
+
+        const bookingStatus =
+            String(
+                booking.status || ""
+            ).toUpperCase();
+
+
+        /*
+         * Use actual booking status
+         * from MySQL first.
+         */
+
+        if (
+            bookingStatus ===
+            "RETURNED"
+        ) {
+
+            return {
+                text: "Returned",
+                className: "returned"
+            };
+
+        }
+
+
+        if (
+            bookingStatus ===
+            "CONFIRMED" ||
+            bookingStatus ===
+            "ACTIVE"
+        ) {
+
+            return {
+                text: "Confirmed",
+                className: "confirmed"
+            };
+
+        }
+
+
+        /*
+         * Fallback to dates.
+         */
+
+        const startDate =
+            booking.startDate;
+
+
+        const endDate =
+            booking.endDate;
+
+
+        if (!startDate || !endDate) {
+
+            return {
+                text: booking.status ||
+                    "Upcoming",
+                className: "upcoming"
+            };
+
+        }
+
+
+        const today =
+            new Date();
+
+        today.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+
+        const start =
+            new Date(startDate);
+
+        const end =
+            new Date(endDate);
+
+
+        start.setHours(
+            0,
+            0,
+            0,
+            0
+        );
+
+
+        end.setHours(
+            23,
+            59,
+            59,
+            999
+        );
+
+
+        if (today < start) {
+
+            return {
+                text: "Upcoming",
+                className: "upcoming"
+            };
+
+        }
+
+
+        if (
+            today >= start &&
+            today <= end
+        ) {
+
+            return {
+                text: "Active",
+                className: "active"
+            };
+
+        }
+
+
+        return {
+            text: "Completed",
+            className: "completed"
+        };
+
+    }
+
+
+    /* =========================================
+       ESCAPE HTML
+    ========================================= */
+
+    function escapeHtml(value) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================================
+       LOAD PRODUCT IMAGE
+    ========================================= */
+
+    async function getProduct(
+        productId
+    ) {
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/products/${productId}`
+                );
+
+
+            if (!response.ok) {
+
+                return null;
+
+            }
+
+
+            return await response.json();
+
+        } catch (error) {
+
+            console.error(
+                "Product loading error:",
+                error
+            );
+
+            return null;
+
+        }
+
+    }
+
+
+    /* =========================================
+       DISPLAY RENTALS
+    ========================================= */
+
+    async function displayRentals(
+        bookings
+    ) {
+
+        const container =
+            document.getElementById(
+                "rentalsContainer"
+            );
+
+
+        if (
+            !bookings ||
+            bookings.length === 0
+        ) {
+
+            container.innerHTML = `
+
+                <div class="empty-state">
+
+                    <h2>
+                        No Rentals Yet
+                    </h2>
+
+                    <p>
+                        You haven't rented any items yet.
+                    </p>
+
+                    <button
+                        class="browse-btn"
+                        onclick="goBack()">
+
+                        Browse Items
+
+                    </button>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML = "";
+
+
+        /*
+         * Load every booking separately.
+         *
+         * This is important because every
+         * rental is now stored independently
+         * in MySQL.
+         */
+
+        for (
+            let index = 0;
+            index < bookings.length;
+            index++
+        ) {
+
+            const booking =
+                bookings[index];
+
+
+            /*
+             * Get product so we can display
+             * its current image.
+             */
+
+            let product = null;
+
+
+            if (
+                booking.productId
+            ) {
+
+                product =
+                    await getProduct(
+                        booking.productId
+                    );
+
+            }
+
+
+            const image =
+                product &&
+                product.image
+                    ? product.image
+                    : "";
+
+
+            const productName =
+                booking.productName ||
+                (
+                    product &&
+                    product.name
+                ) ||
+                "Unnamed Product";
+
+
+            const ownerName =
+                booking.ownerName ||
+                (
+                    product &&
+                    product.ownerName
+                ) ||
+                "Unknown";
+
+
+            const pickupAddress =
+                product &&
+                product.pickupAddress
+                    ? product.pickupAddress
+                    : "Not provided";
+
+
+            const returnAddress =
+                product &&
+                product.returnAddress
+                    ? product.returnAddress
+                    : "Not provided";
+
+
+            const status =
+                getRentalStatus(
+                    booking
+                );
+
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "rental-card";
+
+
+            /* =================================
+               IMAGE
+            ================================= */
+
+            const imageBox =
+                document.createElement(
+                    "div"
+                );
+
+
+            if (
+                image &&
+                String(image).trim() !== ""
+            ) {
+
+                const img =
+                    document.createElement(
+                        "img"
+                    );
+
+
+                img.className =
+                    "product-image";
+
+
+                img.src =
+                    image;
+
+
+                img.alt =
+                    productName;
+
+
+                img.onerror =
+                    function() {
+
+                        imageBox.innerHTML = "";
+
+                        imageBox.className =
+                            "image-placeholder";
+
+                        imageBox.textContent =
+                            "📦";
+
+                    };
+
+
+                imageBox.appendChild(
+                    img
+                );
+
+
+            } else {
+
+                imageBox.className =
+                    "image-placeholder";
+
+                imageBox.textContent =
+                    "📦";
+
+            }
+
+
+            /* =================================
+               PRODUCT INFO
+            ================================= */
+
+            const info =
+                document.createElement(
+                    "div"
+                );
+
+
+            info.className =
+                "product-info";
+
+
+            info.innerHTML = `
+
+                <div class="product-name">
+
+                    ${escapeHtml(
+                productName
+            )}
+
+                </div>
+
+
+                <div class="owner">
+
+                    Owner:
+                    ${escapeHtml(
+                ownerName
+            )}
+
+                </div>
+
+
+                <div class="details">
+
+
+                    <div class="detail">
+
+                        <strong>
+                            Rental Dates:
+                        </strong>
+
+                        <br>
+
+                        ${formatDate(
+                booking.startDate
+            )}
+
+                        –
+
+                        ${formatDate(
+                booking.endDate
+            )}
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <strong>
+                            Due Date:
+                        </strong>
+
+                        <br>
+
+                        ${formatDate(
+                booking.endDate
+            )}
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <strong>
+                            Pickup Address:
+                        </strong>
+
+                        <br>
+
+                        ${escapeHtml(
+                pickupAddress
+            )}
+
+                    </div>
+
+
+                    <div class="detail">
+
+                        <strong>
+                            Return / Drop-off:
+                        </strong>
+
+                        <br>
+
+                        ${escapeHtml(
+                returnAddress
+            )}
+
+                    </div>
+
+
+                </div>
+
+
+                <div class="price">
+
+                    ₹${Number(
+                booking.price || 0
+            )} / day
+
+                </div>
+
+
+                <span
+                    class="status ${status.className}">
+
+                    ${escapeHtml(
+                status.text
+            )}
+
+                </span>
+
+
+                <br>
+
+
+                <button
+                    class="view-btn"
+                    onclick="viewDetails(${index})">
+
+                    View Details
+
+                </button>
+
+            `;
+
+
+            card.appendChild(
+                imageBox
+            );
+
+
+            card.appendChild(
+                info
+            );
+
+
+            container.appendChild(
+                card
+            );
+
+        }
+
+    }
+
+
+    /* =========================================
+       VIEW DETAILS
+    ========================================= */
+
+    let currentBookings = [];
+
+
+    function viewDetails(index) {
+
+        const booking =
+            currentBookings[index];
+
+
+        if (!booking) {
+
+            return;
+
+        }
+
+
+        alert(
+
+            "Rental Details\n\n" +
+
+            "Product: " +
+            (
+                booking.productName ||
+                "Unknown"
+            ) +
+
+            "\nOwner: " +
+            (
+                booking.ownerName ||
+                "Unknown"
+            ) +
+
+            "\nOwner Phone: " +
+            (
+                booking.ownerPhone ||
+                "Not provided"
+            ) +
+
+            "\nPrice: ₹" +
+            (
+                booking.price || 0
+            ) +
+            " / day" +
+
+            "\nRental Dates: " +
+            formatDate(
+                booking.startDate
+            ) +
+            " - " +
+            formatDate(
+                booking.endDate
+            ) +
+
+            "\nStatus: " +
+            (
+                booking.status ||
+                "Unknown"
+            ) +
+
+            "\nOrder ID: " +
+            (
+                booking.orderId ||
+                "Not available"
+            )
+
+        );
+
+    }
+
+
+    /* =========================================
+       LOAD BOOKINGS FROM DATABASE
+    ========================================= */
+
+    async function loadRentals() {
+
+        const container =
+            document.getElementById(
+                "rentalsContainer"
+            );
+
+
+        const user =
+            getLoggedInUser();
+
+
+        if (!user) {
+
+            window.location.href =
+                "/login.html";
+
+            return;
+
+        }
+
+
+        if (!user.email) {
+
+            container.innerHTML = `
+
+                <div class="error-state">
+
+                    <h2>
+                        User information missing
+                    </h2>
+
+                    <p>
+                        Please log in again.
+                    </p>
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        try {
+
+            /*
+             * IMPORTANT:
+             *
+             * Get ALL rentals belonging
+             * to this renter from MySQL.
+             */
+
+            const response =
+                await fetch(
+                    `/api/bookings/renter?email=${encodeURIComponent(
+                        user.email
+                    )}`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to load rentals"
+                );
+
+            }
+
+
+            const bookings =
+                await response.json();
+
+
+            currentBookings =
+                bookings;
+
+
+            await displayRentals(
+                bookings
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Rental loading error:",
+                error
+            );
+
+
+            container.innerHTML = `
+
+                <div class="error-state">
+
+                    <h2>
+                        Unable to load rentals
+                    </h2>
+
+                    <p>
+                        Please make sure the server is running.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* =========================================
+       BACK
+    ========================================= */
+
+    function goBack() {
+
+        window.location.href =
+            "/index.html";
+
+    }
+
+
+    /* =========================================
+       START
+    ========================================= */
+
+    loadRentals();
+
+
+</script>
+
+
+</body>
+
+</html>

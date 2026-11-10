@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0">
+
+    <title>Rental History - BorrowBay</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+
+        body {
+            background: #18212f;
+            color: #f8fafc;
+            min-height: 100vh;
+        }
+
+
+        /* ==============================
+           HEADER
+        ============================== */
+
+        .header {
+            height: 72px;
+            background: #0b1220;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            border-bottom: 1px solid #334155;
+        }
+
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+
+        .back {
+            text-decoration: none;
+            color: #f8fafc;
+            background: #18212f;
+            border: 1px solid #334155;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+
+        .back:hover {
+            color: #2dd4bf;
+            border-color: #14b8a6;
+        }
+
+
+        /* ==============================
+           CONTAINER
+        ============================== */
+
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px 50px;
+        }
+
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+
+        .page-title h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+
+        .page-title p {
+            color: #94a3b8;
+        }
+
+
+        /* ==============================
+           HISTORY LIST
+        ============================== */
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+
+        /* ==============================
+           HISTORY CARD
+        ============================== */
+
+        .history-card {
+            background: #222d3d;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+            box-shadow:
+                    0 10px 30px rgba(0, 0, 0, 0.18);
+        }
+
+
+        .product-image {
+            width: 180px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+            background: #18212f;
+            flex-shrink: 0;
+        }
+
+
+        .image-placeholder {
+            width: 180px;
+            height: 150px;
+            border-radius: 10px;
+            background: #18212f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            flex-shrink: 0;
+        }
+
+
+        /* ==============================
+           DETAILS
+        ============================== */
+
+        .details {
+            flex: 1;
+            min-width: 0;
+        }
+
+
+        .details h3 {
+            font-size: 21px;
+            margin-bottom: 8px;
+        }
+
+
+        .owner {
+            color: #94a3b8;
+            margin-bottom: 18px;
+        }
+
+
+        .owner strong {
+            color: #cbd5e1;
+        }
+
+
+        .info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 25px;
+        }
+
+
+        .info div {
+            color: #cbd5e1;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+
+        .info strong {
+            color: #f8fafc;
+        }
+
+
+        /* ==============================
+           RIGHT SECTION
+        ============================== */
+
+        .right {
+            text-align: right;
+            min-width: 150px;
+        }
+
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #14b8a6;
+            margin-bottom: 11px;
+        }
+
+
+        /* ==============================
+           STATUS
+        ============================== */
+
+        .status {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: rgba(148, 163, 184, 0.15);
+            border: 1px solid #475569;
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        /* ==============================
+           EMPTY STATE
+        ============================== */
+
+        .empty {
+            background: #222d3d;
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 65px 20px;
+            text-align: center;
+            box-shadow:
+                    0 10px 30px rgba(0, 0, 0, 0.18);
+        }
+
+
+        .empty-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+
+
+        .empty h3 {
+            margin-bottom: 8px;
+            color: #f8fafc;
+        }
+
+
+        .empty p {
+            color: #94a3b8;
+        }
+
+
+        /* ==============================
+           ERROR
+        ============================== */
+
+        .error {
+            background: #222d3d;
+            border: 1px solid #7f1d1d;
+            border-radius: 16px;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+
+        .error h3 {
+            color: #f87171;
+            margin-bottom: 10px;
+        }
+
+
+        .error p {
+            color: #94a3b8;
+        }
+
+
+        /* ==============================
+           RESPONSIVE
+        ============================== */
+
+        @media (max-width: 750px) {
+
+            .header {
+                padding: 0 20px;
+            }
+
+
+            .container {
+                margin-top: 30px;
+                padding: 0 15px 40px;
+            }
+
+
+            .history-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+
+            .product-image,
+            .image-placeholder {
+                width: 100%;
+                height: 200px;
+            }
+
+
+            .info {
+                grid-template-columns: 1fr;
+            }
+
+
+            .right {
+                text-align: left;
+                min-width: auto;
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .header h1 {
+                font-size: 21px;
+            }
+
+
+            .page-title h2 {
+                font-size: 26px;
+            }
+
+
+            .history-card {
+                padding: 15px;
+            }
+
+
+            .details h3 {
+                font-size: 19px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==============================
+     HEADER
+============================== -->
+
+<header class="header">
+
+    <h1>
+        BorrowBay
+    </h1>
+
+
+    <a
+            href="/index.html"
+            class="back">
+
+        ← Back
+
+    </a>
+
+</header>
+
+
+<!-- ==============================
+     MAIN
+============================== -->
+
+<div class="container">
+
+
+    <div class="page-title">
+
+        <h2>
+            Rental History
+        </h2>
+
+
+        <p>
+            Your previously completed rentals
+        </p>
+
+    </div>
+
+
+    <div
+            id="historyList"
+            class="history-list">
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+    /* ==============================
+       GET LOGGED-IN USER
+    ============================== */
+
+    function getLoggedInUser() {
+
+        const userData =
+            localStorage.getItem(
+                "borrowBayUser"
+            );
+
+
+        if (!userData) {
+
+            return null;
+
+        }
+
+
+        try {
+
+            return JSON.parse(
+                userData
+            );
+
+        } catch (error) {
+
+            console.error(
+                "Error reading user:",
+                error
+            );
+
+            return null;
+
+        }
+
+    }
+
+
+    /* ==============================
+       EMPTY HISTORY
+    ============================== */
+
+    function showEmptyHistory() {
+
+        document.getElementById(
+            "historyList"
+        ).innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    📦
+                </div>
+
+
+                <h3>
+                    No Rental History
+                </h3>
+
+
+                <p>
+                    Your completed rentals will appear here.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+
+    /* ==============================
+       FORMAT DATE
+    ============================== */
+
+    function formatDate(
+        dateString
+    ) {
+
+        if (!dateString) {
+
+            return "N/A";
+
+        }
+
+
+        const date =
+            new Date(
+                dateString
+            );
+
+
+        if (
+            isNaN(
+                date.getTime()
+            )
+        ) {
+
+            return "N/A";
+
+        }
+
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* ==============================
+       ESCAPE HTML
+    ============================== */
+
+    function escapeHtml(
+        value
+    ) {
+
+        if (
+            value === null ||
+            value === undefined
+        ) {
+
+            return "";
+
+        }
+
+
+        return String(value)
+
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+
+            .replace(
+                /</g,
+                "&lt;"
+            )
+
+            .replace(
+                />/g,
+                "&gt;"
+            )
+
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* ==============================
+       LOAD PRODUCT
+    ============================== */
+
+    async function getProduct(
+        productId
+    ) {
+
+        if (!productId) {
+
+            return null;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    `/api/products/${productId}`
+                );
+
+
+            if (!response.ok) {
+
+                return null;
+
+            }
+
+
+            return await response.json();
+
+        } catch (error) {
+
+            console.error(
+                "Product loading error:",
+                error
+            );
+
+            return null;
+
+        }
+
+    }
+
+
+    /* ==============================
+       LOAD HISTORY
+    ============================== */
+
+    async function loadHistory() {
+
+        const historyList =
+            document.getElementById(
+                "historyList"
+            );
+
+
+        const user =
+            getLoggedInUser();
+
+
+        if (
+            !user ||
+            !user.email
+        ) {
+
+            window.location.href =
+                "/login.html";
+
+            return;
+
+        }
+
+
+        historyList.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ⏳
+                </div>
+
+                <h3>
+                    Loading History...
+                </h3>
+
+                <p>
+                    Please wait.
+                </p>
+
+            </div>
+
+        `;
+
+
+        try {
+
+            /*
+             * Get ALL bookings belonging
+             * to the logged-in renter.
+             */
+
+            const response =
+                await fetch(
+                    `/api/bookings/renter?email=${encodeURIComponent(
+                        user.email
+                    )}`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Failed to load bookings"
+                );
+
+            }
+
+
+            const bookings =
+                await response.json();
+
+
+            /*
+             * IMPORTANT:
+             *
+             * History contains only
+             * bookings actually returned
+             * by the owner.
+             */
+
+            const returnedBookings =
+                bookings.filter(
+                    booking =>
+
+                        String(
+                            booking.status || ""
+                        ).toUpperCase() ===
+                        "RETURNED"
+                );
+
+
+            if (
+                returnedBookings.length === 0
+            ) {
+
+                showEmptyHistory();
+
+                return;
+
+            }
+
+
+            /*
+             * Newest returned rental first.
+             */
+
+            returnedBookings.sort(
+                (a, b) => {
+
+                    const dateA =
+                        new Date(
+                            a.endDate ||
+                            a.bookingDate ||
+                            0
+                        ).getTime();
+
+
+                    const dateB =
+                        new Date(
+                            b.endDate ||
+                            b.bookingDate ||
+                            0
+                        ).getTime();
+
+
+                    return dateB - dateA;
+
+                }
+            );
+
+
+            historyList.innerHTML = "";
+
+
+            /*
+             * Display every returned booking.
+             */
+
+            for (
+                const booking
+                of returnedBookings
+                ) {
+
+                const product =
+                    await getProduct(
+                        booking.productId
+                    );
+
+
+                const productName =
+                    booking.productName ||
+                    (
+                        product &&
+                        product.name
+                    ) ||
+                    "Unnamed Product";
+
+
+                const ownerName =
+                    booking.ownerName ||
+                    (
+                        product &&
+                        product.ownerName
+                    ) ||
+                    "Unknown";
+
+
+                const pickupAddress =
+                    (
+                        product &&
+                        product.pickupAddress
+                    ) ||
+                    "Not provided";
+
+
+                const returnAddress =
+                    (
+                        product &&
+                        product.returnAddress
+                    ) ||
+                    "Not provided";
+
+
+                const image =
+                    (
+                        product &&
+                        product.image
+                    ) ||
+                    "";
+
+
+                const price =
+                    booking.price ||
+                    0;
+
+
+                const imageBox =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                /*
+                 * Use actual image from
+                 * the product database.
+                 */
+
+                if (
+                    image &&
+                    String(image).trim() !== ""
+                ) {
+
+                    const img =
+                        document.createElement(
+                            "img"
+                        );
+
+
+                    img.className =
+                        "product-image";
+
+
+                    img.src =
+                        image;
+
+
+                    img.alt =
+                        productName;
+
+
+                    img.onerror =
+                        function() {
+
+                            imageBox.innerHTML =
+                                "";
+
+                            imageBox.className =
+                                "image-placeholder";
+
+                            imageBox.textContent =
+                                "📦";
+
+                        };
+
+
+                    imageBox.appendChild(
+                        img
+                    );
+
+
+                } else {
+
+                    imageBox.className =
+                        "image-placeholder";
+
+                    imageBox.textContent =
+                        "📦";
+
+                }
+
+
+                /* ==============================
+                   CARD
+                ============================== */
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                card.className =
+                    "history-card";
+
+
+                const details =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                details.className =
+                    "details";
+
+
+                details.innerHTML = `
+
+                    <h3>
+
+                        ${escapeHtml(
+                    productName
+                )}
+
+                    </h3>
+
+
+                    <div class="owner">
+
+                        Owner:
+
+                        <strong>
+
+                            ${escapeHtml(
+                    ownerName
+                )}
+
+                        </strong>
+
+                    </div>
+
+
+                    <div class="info">
+
+
+                        <div>
+
+                            <strong>
+                                Rental:
+                            </strong>
+
+                            <br>
+
+                            ${formatDate(
+                    booking.startDate
+                )}
+
+                            -
+
+                            ${formatDate(
+                    booking.endDate
+                )}
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Completed:
+                            </strong>
+
+                            <br>
+
+                            ${formatDate(
+                    booking.endDate
+                )}
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Pickup:
+                            </strong>
+
+                            <br>
+
+                            ${escapeHtml(
+                    pickupAddress
+                )}
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Return:
+                            </strong>
+
+                            <br>
+
+                            ${escapeHtml(
+                    returnAddress
+                )}
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Booking Date:
+                            </strong>
+
+                            <br>
+
+                            ${formatDate(
+                    booking.bookingDate
+                )}
+
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Payment:
+                            </strong>
+
+                            <br>
+
+                            ${escapeHtml(
+                    booking.paymentMethod ||
+                    "N/A"
+                )}
+
+                        </div>
+
+
+                    </div>
+
+                `;
+
+
+                /* ==============================
+                   RIGHT SIDE
+                ============================== */
+
+                const right =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                right.className =
+                    "right";
+
+
+                right.innerHTML = `
+
+                    <div class="price">
+
+                        ₹${Number(
+                    price
+                )}
+
+                    </div>
+
+
+                    <div class="status">
+
+                        Returned
+
+                    </div>
+
+                `;
+
+
+                card.appendChild(
+                    imageBox
+                );
+
+
+                card.appendChild(
+                    details
+                );
+
+
+                card.appendChild(
+                    right
+                );
+
+
+                historyList.appendChild(
+                    card
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "History loading error:",
+                error
+            );
+
+
+            historyList.innerHTML = `
+
+                <div class="error">
+
+                    <h3>
+                        Unable to load rental history
+                    </h3>
+
+                    <p>
+                        Please make sure the server is running.
+                    </p>
+
+                </div>
+
+            `;
+
+        }
+
+    }
+
+
+    /* ==============================
+       START
+    ============================== */
+
+    loadHistory();
+
+
+</script>
+
+
+</body>
+
+</html>
